@@ -105,6 +105,10 @@ The API will then be running on `http://0.0.0.0:5001`.
 ```bash
 curl -X POST http://0.0.0.0:5001/generate_token
 ```
+Or on the Terminal:
+  ```bash
+  ccommander api token
+  ```
 
 ### Upload and Convert a File
 
