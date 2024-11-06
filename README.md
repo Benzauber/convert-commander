@@ -87,7 +87,7 @@ The Web will then be running on `http://0.0.0.0:5000`.
    To generate the token, use:
 
   ```bash
-  ccommander api startus
+  ccommander api token
   ```
 
 The API will then be running on `http://0.0.0.0:5001`.
