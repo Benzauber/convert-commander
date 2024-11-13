@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # URL of your Flask application
-API_URL="http://localhost:5001"
+API_URL="http://localhost:9596"
 
 # Make a POST request to the /generate_token endpoint
 response=$(curl -s -X POST "${API_URL}/generate_token")
