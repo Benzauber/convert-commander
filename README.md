@@ -52,7 +52,31 @@ After installation, the following commands are available:
   ```bash
   ccommander web status
   ```
-The Web will then be running on `http://0.0.0.0:5000`.
+The Web will then be running on `http://0.0.0.0:9595`.
+
+### Doesn't work?
+
+If it doesn't work, try the following:
+
+1. Make the `create-alias.sh` script executable:
+
+   ```bash
+   chmod +x create-alias.sh
+   ```
+
+2. Run the script:
+
+   ```bash
+   bash create-alias.sh
+   ```
+
+3. Source the `.bashrc` file to load the new aliases:
+
+   ```bash
+   source ~/.bashrc
+   ```
+
+After doing this, the `ccommander` command should be available and you can use the start, stop, and status commands as mentioned above.
 
 # API Documentation
 
@@ -90,7 +114,7 @@ The Web will then be running on `http://0.0.0.0:5000`.
   ccommander api token
   ```
 
-The API will then be running on `http://0.0.0.0:5001`.
+The API will then be running on `http://0.0.0.0:9596`.
 
 ## API Routes
 
@@ -103,7 +127,7 @@ The API will then be running on `http://0.0.0.0:5001`.
 **Example Request:**
 
 ```bash
-curl -X POST http://0.0.0.0:5001/generate_token
+curl -X POST http://0.0.0.0:9596/generate_token
 ```
 Or on the Terminal:
   ```bash
@@ -124,7 +148,7 @@ Or on the Terminal:
 **Example Request:**
 
 ```bash
-curl -X POST -H "X-API-Token: <api_token>" -F "file=@/path/to/file.txt" -F "format=pdf" http://0.0.0.0:5001/upload
+curl -X POST -H "X-API-Token: <api_token>" -F "file=@/path/to/file.txt" -F "format=pdf" http://0.0.0.0:9596/upload
 ```
 
 ### Clear Folders
@@ -139,7 +163,7 @@ curl -X POST -H "X-API-Token: <api_token>" -F "file=@/path/to/file.txt" -F "form
 **Example Request:**
 
 ```bash
-curl -X POST -H "X-API-Token: <api_token>" http://0.0.0.0:5001/clear
+curl -X POST -H "X-API-Token: <api_token>" http://0.0.0.0:9596/clear
 ```
 
 ## External Script File (sendapi.sh)
@@ -152,7 +176,7 @@ Here is an example script that uses the API functionality from the command line:
 FILE_PATH=$1
 TARGET_FORMAT=$2
 API_TOKEN="<api_token>"
-API_URL="http://0.0.0.0:5001/upload"
+API_URL="http://0.0.0.0:9596/upload"
 
 if [ -z "$FILE_PATH" ] || [ -z "$TARGET_FORMAT" ] || [ -z "$API_TOKEN" ]; then
     echo "Usage: $0 <file_path> <target_format> <api_token>"
