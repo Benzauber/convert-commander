@@ -1,21 +1,21 @@
 #!/bin/bash
 
-# Virtuelle Umgebung aktivieren
+# Activate virtual environment
 source "$(dirname "$0")/venv/bin/activate"
 
-# Pfad zu den Python-Skripten
-PYTHON_SCRIPT_WEB="index:app"  # Format: "dateiname:app_name"
-PYTHON_SCRIPT_API="api:app"    # Format: "dateiname:app_name"
+# Path to the Python scripts
+PYTHON_SCRIPT_WEB="index:app"  # Format: "filename:app_name"
+PYTHON_SCRIPT_API="api:app"    # Format: "filename:app_name"
 
-# PID-Dateien für die Gunicorn-Prozesse
+# PID files for the Gunicorn processes
 PID_FILE_WEB="/tmp/gunicorn_web.pid"
 PID_FILE_API="/tmp/gunicorn_api.pid"
 
-# Gunicorn-Befehl zum Starten des Prozesses, inklusive Ports und Fehlerprotokollierung
+# Gunicorn command to start the process, including ports and error logging
 GUNICORN_CMD_WEB="gunicorn --bind 0.0.0.0:9595 --daemon --pid $PID_FILE_WEB --error-logfile /tmp/gunicorn_web_error.log"
 GUNICORN_CMD_API="gunicorn --bind 0.0.0.0:9596 --daemon --pid $PID_FILE_API --error-logfile /tmp/gunicorn_api_error.log"
 
-# Funktion zum Überprüfen, ob ein Prozess läuft
+# Function to check if a process is running
 check_status() {
     local PID_FILE=$1
     local SERVICE_NAME=$2
@@ -23,31 +23,31 @@ check_status() {
     if [ -f "$PID_FILE" ]; then
         PID=$(cat "$PID_FILE")
         if ps -p "$PID" > /dev/null; then
-            echo "$SERVICE_NAME läuft (PID: $PID)"
+            echo "$SERVICE_NAME is running (PID: $PID)"
         else
-            echo "$SERVICE_NAME läuft nicht, PID-Datei gefunden, aber Prozess nicht aktiv"
+            echo "$SERVICE_NAME is not running, PID file found but process not active"
             rm "$PID_FILE"
         fi
     else
-        echo "$SERVICE_NAME läuft nicht"
+        echo "$SERVICE_NAME is not running"
     fi
 }
 
-# Starten des Gunicorn-Prozesses
+# Start the Gunicorn process
 start_service() {
     local SCRIPT_NAME=$1
     local PID_FILE=$2
     local GUNICORN_CMD=$3
 
     if [ -f "$PID_FILE" ] && ps -p "$(cat $PID_FILE)" > /dev/null; then
-        echo "$SCRIPT_NAME läuft bereits"
+        echo "$SCRIPT_NAME is already running"
     else
         $GUNICORN_CMD "$SCRIPT_NAME" &
-        echo "$SCRIPT_NAME wurde gestartet"
+        echo "$SCRIPT_NAME has been started"
     fi
 }
 
-# Stoppen des Gunicorn-Prozesses
+# Stop the Gunicorn process
 stop_service() {
     local PID_FILE=$1
     local SERVICE_NAME=$2
@@ -56,23 +56,23 @@ stop_service() {
         PID=$(cat "$PID_FILE")
         kill "$PID" 2>/dev/null
         rm "$PID_FILE"
-        echo "$SERVICE_NAME wurde gestoppt"
+        echo "$SERVICE_NAME has been stopped"
     else
-        echo "$SERVICE_NAME läuft nicht"
+        echo "$SERVICE_NAME is not running"
     fi
 }
 
-# Funktion zum Ausführen eines Bash-Skripts
+# Function to run a Bash script
 run_bash_script() {
     local SCRIPT_NAME=$1
     if [ -x "$SCRIPT_NAME" ]; then
         ./"$SCRIPT_NAME"
     else
-        echo "Das Skript '$SCRIPT_NAME' ist nicht ausführbar oder nicht gefunden."
+        echo "The script '$SCRIPT_NAME' is not executable or not found."
     fi
 }
 
-# Hauptlogik zur Auswahl des Dienstes und der Aktion
+# Main logic to choose the service and action
 case "$1" in
     web)
         case "$2" in
@@ -80,13 +80,13 @@ case "$1" in
                 start_service "$PYTHON_SCRIPT_WEB" "$PID_FILE_WEB" "$GUNICORN_CMD_WEB"
                 ;;
             stop)
-                stop_service "$PID_FILE_WEB" "Web-Dienst"
+                stop_service "$PID_FILE_WEB" "Web service"
                 ;;
             status)
-                check_status "$PID_FILE_WEB" "Web-Dienst"
+                check_status "$PID_FILE_WEB" "Web service"
                 ;;
             *)
-                echo "Verwendung: $0 {web|api} {start|stop|status}"
+                echo "Usage: $0 {web|api} {start|stop|status}"
                 exit 1
                 ;;
         esac
@@ -97,22 +97,22 @@ case "$1" in
                 start_service "$PYTHON_SCRIPT_API" "$PID_FILE_API" "$GUNICORN_CMD_API"
                 ;;
             stop)
-                stop_service "$PID_FILE_API" "API-Dienst"
+                stop_service "$PID_FILE_API" "API service"
                 ;;
             status)
-                check_status "$PID_FILE_API" "API-Dienst"
+                check_status "$PID_FILE_API" "API service"
                 ;;
             token)
-                run_bash_script "tokenapi.sh" 
+                run_bash_script "tokenapi.sh"
                 ;;
             *)
-                echo "Verwendung: $0 {web|api} {start|stop|status|token}"
+                echo "Usage: $0 {web|api} {start|stop|status|token}"
                 exit 1
                 ;;
         esac
         ;;
     *)
-        echo "Verwendung: $0 {web|api} {start|stop|status|token}"
+        echo "Usage: $0 {web|api} {start|stop|status|token}"
         exit 1
         ;;
 esac
