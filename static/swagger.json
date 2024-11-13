@@ -1,0 +1,75 @@
+{
+    "swagger": "2.0",
+    "info": {
+      "title": "Convert-Commander API",
+      "version": "1.0"
+    },
+    "paths": {
+      "/upload": {
+        "post": {
+          "tags": ["File Conversion"],
+          "summary": "Upload a file and convert it to the specified format",
+          "parameters": [
+            {
+              "name": "X-API-Token",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "description": "API token for authentication"
+            },
+            {
+              "name": "file",
+              "in": "formData",
+              "required": true,
+              "type": "file",
+              "description": "The file to upload"
+            },
+            {
+              "name": "format",
+              "in": "formData",
+              "required": true,
+              "type": "string",
+              "description": "The target format for conversion"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Successfully converted file"
+            },
+            "400": {
+              "description": "Invalid request"
+            },
+            "401": {
+              "description": "Unauthorized"
+            },
+            "500": {
+              "description": "Server error"
+            }
+          }
+        }
+      },
+      "/clear": {
+          "post": {
+            "tags": ["Maintenance"],
+            "summary": "Clear all files in the upload and convert folders",
+            "parameters": [
+                {
+                    "name": "X-API-Token",
+                    "in": "header",
+                    "required": true,
+                    "type": "string",
+                    "description": "API token for authentication"
+                }
+            ],
+            "responses": {
+                "200": {
+                    "description": "Folders successfully cleared"
+                },
+                "401": {
+                    "description": "Unauthorized"
+            }
+          }
+        }
+      }
+    }
+  }

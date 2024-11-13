@@ -1,0 +1,265 @@
+body {
+  background-color: #1B1B1B;
+  color: white;
+  font-family: Arial, sans-serif;
+  width: 80%;
+  margin: 0 auto;
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+h1 {
+  margin-bottom: 30px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo,
+.link {
+  padding: 10px;
+  margin: 5px;
+  font-size: 20px;
+}
+
+.logo {
+  text-align: left;
+  color: #94EBEB;
+}
+
+.link {
+  text-align: right;
+  color: white;
+}
+
+.link a {
+  text-decoration: none;
+  color: white;
+}
+
+.link a:hover {
+  color: #a0a0a0;
+  transition: all 0.3s;
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+.button-wrapper {
+  display: flex;
+  flex-direction: column;
+  width: max-content;
+}
+
+.buttons {
+  display: inline-block;
+  padding: 12px 24px;
+  background-color: #94EBEB;
+  border: none;
+  border-radius: 10px;
+  color: #1B1B1B;
+  cursor: pointer;
+  font-size: 16px;
+  min-width: 150px;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: all 0.3s ease;
+}
+
+.buttons:hover {
+  background-color: #7CD1D1;
+  transform: translateY(0px);
+  box-shadow: 0 4px 8px rgba(148, 235, 235, 0.2);
+}
+
+.dropdown2 {
+  position: relative;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  width: 120%;
+}
+
+.dropdown-content2 {
+  padding: 10px; 
+  position: absolute;
+  top: 115%;
+  left: 0;
+  background-color: #2A2A2A;
+  border-radius: 10px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.3);
+  z-index: 1;
+  width: 90%; 
+  max-height: 400px;
+  overflow-y: auto; 
+  opacity: 0;
+  transition: opacity 0.3s ease-out, top 0.2s ease-out;
+  scrollbar-width: thin;
+  scrollbar-color: #94EBEB #2A2A2A;
+}
+
+.dropdown2:hover .dropdown-content2 {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+  top: 100%; 
+  opacity: 1; 
+  padding: 10px; 
+}
+
+.dropbtn2 {
+  background-color: #b0f1f1;
+}
+
+.dropdown2:hover .dropbtn2 {
+  background-color: #7CD1D1; 
+  transform: translateY(0px);
+  box-shadow: 0 4px 8px rgba(148, 235, 235, 0.2);
+}
+
+.dropdown-content2::-webkit-scrollbar {
+  width: 8px;
+}
+
+.dropdown-content2::-webkit-scrollbar-track {
+  background: #2A2A2A;
+  border-radius: 10px;
+}
+
+.dropdown-content2::-webkit-scrollbar-thumb {
+  background-color: #94EBEB;
+  border-radius: 4px;
+}
+
+.dropdown-content2 p {
+  color: #FFFFFF;
+  padding: 8px 12px;
+  margin: 4px;
+  text-decoration: none;
+  background-color: #3A3A3A;
+  border-radius: 5px;
+  flex: 1 0 calc(33.33% - 8px);
+  text-align: center;
+  box-sizing: border-box;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.dropdown-content2 p:hover {
+  background-color: #4A4A4A;
+  transform: scale(1.05);
+}
+#file {
+  border-radius: 10px;
+  transition: all 0.3s;
+}
+
+#fileInput {
+  display: none;
+}
+
+.suche {
+  width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+  margin-bottom: 8px;
+  background-color: #2A2A2A;
+  border: 1px solid #000000;
+  color: #FFFFFF;
+  border-radius: 5px;
+}
+
+.suche::placeholder {
+  color: #888888;
+}
+
+@media (min-width: 600px){
+  .buttons:hover {
+    transform: translateY(-2px);
+  }
+  .dropdown2:hover .dropbtn2 { 
+    transform: translateY(-2px);
+  }
+  
+}
+
+@media (max-width: 600px) {
+  body{
+    width: 95%;
+    margin: 0 auto; 
+}
+  .main {
+    padding: 20px 10px;
+  }
+
+  .button-container {
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+  }
+
+  .button-wrapper {
+    width: 95%;
+  }
+
+  .buttons {
+    width: 95%;
+    min-width: unset;
+    font-size: 16px;
+    padding: 15px 10px;
+  }
+
+  .dropdown-content2 {
+    width: 95%;
+    top: 100%;
+  }
+
+  .dropdown-content2 p {
+    flex: 1 0 calc(50% - 8px);
+    margin: 4px;
+  }
+
+  #submitButton {
+    width: 100%;
+  }
+
+  h1 {
+    font-size: 24px;
+    text-align: center;
+  }
+  .dropdown2:hover .dropdown-content2 {
+    overflow-y: auto; 
+   
+  }
+  
+}
+
+@media (max-width: 415px) {
+  #submitButton {
+    width: 101%;
+  }
+
+  .dropdown-content2 p {
+    flex: 1 0 100%;
+  }
+}
+
+@media (max-width: 364px) {
+  #submitButton {
+    width: 102%;
+  }
+}

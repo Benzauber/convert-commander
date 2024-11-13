@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Docs</title>
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
+</head>
+
+<body>
+    <div class="header">
+        <div class="logo">
+            <h3>Convert-Commander</h3>
+        </div>
+        <div class="link">
+            <a href="/">Convert</a>
+        </div>
+    </div>
+    <br>
+    <table>
+        <h5>Which file can you convert?</h5>
+        <tr>
+            <td>
+                <p>.docs/.doc</p>
+                <p>.txt</p>
+                <p>.odt</p>
+                <p>.html/.htm</p>
+            </td>
+            <td>
+                <p>to</p>
+            </td>
+            <td>
+                <p>.docs/.doc</p>
+                <p>.txt</p>
+                <p>.odt</p>
+                <p>.html/.htm</p>
+                <p>.epub</p>
+                <p>.pdf</p>
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                <p>.xlsx/.xls</p>
+                <p>.ods</p>
+            </td>
+            <td>
+                <p>to</p>
+            </td>
+            <td>
+                <p>.xlsx/.xls</p>
+                <p>.ods</p>
+                <p>.pdf</p>
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                <p>.pptx/.ppt</p>
+                <p>.odp</p>
+            </td>
+            <td>
+                <p>to</p>
+            </td>
+            <td>
+                <p>.pptx/.ppt</p>
+                <p>.odp</p>
+                <p>.pdf</p>
+            </td>
+        </tr>
+
+    </table>
+    <div class="exp">
+        <h5>What are the files?</h5>
+        <p><b>.docs:</b> This is not a standard file extension, likely a typo for .docx, which is a Microsoft Word document format.</p>
+        <p><b>.doc:</b> A Microsoft Word document format, commonly used for word processing.</p>
+        <p><b>.txt:</b> A plain text file that contains unformatted text.</p>
+        <p><b>.odt:</b> An OpenDocument Text file, typically used by OpenOffice and LibreOffice for word processing.</p>
+        <p><b>.html:</b> A HyperText Markup Language file, used to structure content on the web.</p>
+        <p><b>.htm:</b> A variant of the .html extension, also used for web pages.</p>
+        <p><b>.epub:</b> An electronic publication (ePub) file, commonly used for eBooks and supported by many eReader devices and applications.</p>        
+        <p><b>.xlsx:</b> A Microsoft Excel file format, used for spreadsheets.</p>
+        <p><b>.xls:</b> An older Microsoft Excel file format, also used for spreadsheets.</p>
+        <p><b>.pdf:</b> A Portable Document Format, widely used for sharing formatted documents.</p>
+        <p><b>.ods:</b> An OpenDocument Spreadsheet file, used by OpenOffice and LibreOffice for spreadsheets.</p>
+        <p><b>.odp:</b> An OpenDocument Presentation file, used by OpenOffice and LibreOffice for presentations.</p>
+        <p><b>.pptx:</b> A Microsoft PowerPoint presentation format, used for creating slideshows.</p>
+        <p><b>.ppt:</b> An older Microsoft PowerPoint format, also used for presentations.</p>
+
+
+
+
+    </div>
+</body>
+<style>
+    body {
+        background-color: #1B1B1B;
+        color: white;
+        font-family: Arial, sans-serif;
+        width: 80%;
+        margin: 0 auto;
+        /* Zentriert den Inhalt */
+    }
+
+    .header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .logo,
+    .link {
+        padding: 10px;
+        margin: 5px;
+        font-size: 20px;
+        /* Einheitliche Schriftgröße */
+    }
+
+    .logo {
+        text-align: left;
+        color: #94EBEB;
+    }
+
+    .link {
+        text-align: right;
+        color: white;
+    }
+
+    .link a {
+        text-decoration: none;
+        color: white;
+    }
+
+    .link a:hover {
+        color: #a0a0a0;
+        transition: all 0.3s;
+    }
+
+
+
+    table {
+        border-collapse: collapse;
+        /* Entfernt Lücken zwischen den Zellen */
+        text-align: center;
+        width: 100%;
+    }
+    h5{
+        font-size: 25px;
+        color: #94EBEB;
+        text-align: center;
+    }
+    table td,
+    table tr {
+        vertical-align: middle;
+        text-align: center;
+    }
+
+    tr {
+        border-bottom: 1px solid #94EBEB;
+        /* Fügt eine weiße Linie unter jeder Zelle hinzu */
+    }
+
+    tr p {
+        font-size: 25px;
+    }
+
+    .exp {
+        margin-top: 50px;
+        margin-left: 11%;
+        margin-right: 11%;
+    }
+
+    .exp p {
+        font-size: 20px;
+    }
+    @media (max-width: 600px) {
+        body{
+            width: 95%;
+            margin: 0 auto; 
+        }
+        .exp {
+            margin-left: 5%;
+            margin-left: 5%;
+        }
+
+    }
+</style>
+
+</html>

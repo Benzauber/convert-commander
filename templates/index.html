@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dropdown Menu</title>
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="header">
+        <div class="logo">
+            <h3>Convert-Commander</h3>
+        </div>
+        <div class="link">
+            <a href="/docs">docs</a>
+        </div>
+    </div>
+    <div class="main">
+        <h1>Convert-Commander</h1>
+        <div class="button-container">
+            <div class="button-wrapper">
+                <form action="/" method="post" enctype="multipart/form-data">
+                <label class="buttons" for="fileInput" id="fileLabel">Select File</label>
+                <input type="file" name="file" id="fileInput" required onchange="updateFileName()">
+            </div>
+            
+            <div class="button-wrapper dropdown2" onmouseover="meineFunktion()">
+                <div class="buttons dropbtn2" onclick="event.preventDefault(); meineFunktion()" id="file">File Type</div>
+                <div class="dropdown-content2">
+                    <input class="suche" type="text" onkeyup="filterFunction('dropdown-content2')" placeholder="Search...">
+                    <p class="text" onclick="setFileFunction('text', 'txt')">txt</p>
+                    <p class="text" onclick="setFileFunction('text', 'odt')">odt</p>
+                    <p class="text" onclick="setFileFunction('text', 'html')">html</p>
+                    <p class="text" onclick="setFileFunction('text', 'htm')">htm</p>
+                    <p class="text" onclick="setFileFunction('text', 'doc')">doc</p>
+                    <p class="text" onclick="setFileFunction('text', 'docx')">docx</p>
+                    <p class="text" onclick="setFileFunction('text', 'epub')">epub</p>
+                    <p class="none" onclick="setFileFunction('none', 'pdf')">pdf</p>
+                    <p class="ppt" onclick="setFileFunction('ppt', 'pptx')">pptx</p>
+                    <p class="ppt" onclick="setFileFunction('ppt', 'ppt')">ppt</p>
+                    <p class="ppt" onclick="setFileFunction('ppt', 'odp')">odp</p>
+                    <p class="exel" onclick="setFileFunction('exel', 'xls')">xls</p>
+                    <p class="exel" onclick="setFileFunction('exel', 'xlsx')">xlsx</p>
+                    <p class="exel" onclick="setFileFunction('exel', 'ods')">ods</p>
+                </div>
+            </div>
+            
+            <div class="button-wrapper">
+                <input class="buttons" type="button" value="Upload" id="submitButton" onclick="sendData()">
+            </div>
+        </div>
+    </div>
+    <p id="upload-status">
+        {% if status %}
+            {{ status }}
+        {% endif %}
+    </p>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
