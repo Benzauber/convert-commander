@@ -8,18 +8,9 @@ You can see this on the [website](https://cc.bleibundgut.ch/).
 
 | Input Format       | To      | Output Format       |
 |--------------------|---------|---------------------|
-| `.docs` / `.doc`  | **to**  | `.docs` / `.doc`    |
-| `.txt`            |         | `.txt`              |
-| `.odt`            |         | `.odt`              |
-| `.html` / `.htm`  |         | `.html` / `.htm`    |
-|                   |         | `.epub`             |
-|                   |         | `.pdf`              |
-| `.xlsx` / `.xls`  | **to**  | `.xlsx` / `.xls`    |
-| `.ods`            |         | `.ods`              |
-|                   |         | `.pdf`              |
-| `.pptx` / `.ppt`  | **to**  | `.pptx` / `.ppt`    |
-| `.odp`            |         | `.odp`              |
-|                   |         | `.pdf`              |
+| `.docs` / `.doc`  | **to**  | `.docs` / `.doc`, `.txt`, `.odt`, `.html` / `.htm`, `.epub`, `.pdf` |
+| `.xlsx` / `.xls`  | **to**  | `.xlsx` / `.xls`, `.ods`, `.pdf`                                   |
+| `.pptx` / `.ppt`  | **to**  | `.pptx` / `.ppt`, `.odp`, `.pdf`  
 
  
 # Installation Convert-Commander
