@@ -6,11 +6,12 @@ You can see this on the [website](https://cc.bleibundgut.ch/).
 
 ## Which file can you convert?
 
-| Input Format       | To      | Output Format       |
-|--------------------|---------|---------------------|
-| `.docs` / `.doc`  | **to**  | `.docs` / `.doc`, `.txt`, `.odt`, `.html` / `.htm`, `.epub`, `.pdf` |
-| `.xlsx` / `.xls`  | **to**  | `.xlsx` / `.xls`, `.ods`, `.pdf`                                   |
-| `.pptx` / `.ppt`  | **to**  | `.pptx` / `.ppt`, `.odp`, `.pdf`  
+| Input Format                                     | To      | Output Format                                                    |
+|-------------------------------------------------|---------|------------------------------------------------------------------|
+| `.docs` / `.doc`, `.txt`, `.odt`, `.html` / `.htm` | **to**  | `.docs` / `.doc`, `.txt`, `.odt`, `.html` / `.htm`, `.epub`, `.pdf` |
+| `.xlsx` / `.xls`, `.ods`                           | **to**  | `.xlsx` / `.xls`, `.ods`, `.pdf`                                 |
+| `.pptx` / `.ppt`, `.odp`                        | **to**  | `.pptx` / `.ppt`, `.odp`, `.pdf`                                 |
+
 
  
 # Installation Convert-Commander
