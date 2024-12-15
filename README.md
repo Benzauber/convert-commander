@@ -128,22 +128,6 @@ The API will then be running on `http://0.0.0.0:9596`.
 
 ## API Routes
 
-### Generate a new API Token
-
-**Endpoint:** `/generate_token`  
-**Method:** `POST`  
-**Description:** Generates a new API token that must be used for authentication in other API calls.
-
-**Example Request:**
-
-```bash
-curl -X POST http://0.0.0.0:9596/generate_token
-```
-Or on the Terminal:
-  ```bash
-  ccommander api token
-  ```
-
 ### Upload and Convert a File
 
 **Endpoint:** `/upload`  
