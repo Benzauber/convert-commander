@@ -13,6 +13,8 @@ You can see this on the [website](https://cc.bleibundgut.ch/).
 | `.pptx` / `.ppt`, `.odp`                        | **to**  | `.pptx` / `.ppt`, `.odp`, `.pdf`                                 |
 
 
+## I have tested with:
+Ubuntu and Dabian
  
 # Installation Convert-Commander
 
