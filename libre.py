@@ -5,15 +5,15 @@ import os
 def start(input_file, output_extension):
     def convert_file(input_file, output_file):
         if not os.path.exists(input_file):
-            print(f"Die Eingabedatei '{input_file}' existiert nicht.")
+            print(f"The input file '{input_file}' does not exist.")
             return
 
         output_dir = os.path.dirname(output_file)
         if not os.path.exists(output_dir):
-            print(f"Der Ausgabeordner '{output_dir}' existiert nicht.")
+            print(f"The output folder '{output_dir}' does not exist.")
             return
 
-        # Der LibreOffice-Befehl zum Konvertieren der Datei
+        # The LibreOffice command to convert the file
         command = [
             'libreoffice',
             '--headless',
@@ -24,22 +24,19 @@ def start(input_file, output_extension):
 
         try:
             result = subprocess.run(command, check=True, stderr=subprocess.PIPE, stdout=subprocess.PIPE)
-            print(f"Konvertierung erfolgreich abgeschlossen: {result.stdout.decode()}")
+            print(f"Conversion completed successfully: {result.stdout.decode()}")
         except subprocess.CalledProcessError as e:
-            print(f"Fehler beim Konvertieren: {e.stderr.decode()}")
-            print(f"Ausgabe: {e.stdout.decode()}")
+            print(f"Error during conversion: {e.stderr.decode()}")
+            print(f"Output: {e.stdout.decode()}")
 
-    # Dynamischer Zielpfad für das konvertierte Dokument
+    # Dynamic target path for the converted document
     input_ext = os.path.splitext(input_file)[1].lstrip('.')
     file_name = os.path.basename(input_file).replace(f'.{input_ext}', '')
     output_file = os.path.join('convert', f'{file_name}.{output_extension}')
 
-    # Debug-Ausgabe für das Arbeitsverzeichnis
-    print(f"Arbeitsverzeichnis: {os.getcwd()}")
-    print(f"Ausgabeordner: {os.path.dirname(output_file)}")
+    # Debug output for the working directory
+    print(f"Working directory: {os.getcwd()}")
+    print(f"Output folder: {os.path.dirname(output_file)}")
 
     convert_file(input_file, output_file)
-    print(f"Die Datei '{input_file}' wurde erfolgreich in '{output_file}' konvertiert.")
-
-
-
+    print(f"The file '{input_file}' has been successfully converted to '{output_file}'.")

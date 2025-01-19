@@ -1,11 +1,109 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Docs</title>
-    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <title>Convert Commander - File Format Guide</title>
+    <style>
+
+
+        body {
+  background-color: #1B1B1B;
+  color: white;
+  font-family: Arial, sans-serif;
+  width: 80%;
+  margin: 0 auto;
+}
+
+        /* Header styles - preserved as requested */
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            border-bottom: 1px solid #333;
+            margin-bottom: 40px;
+        }
+
+        .logo,
+        .link {
+            padding: 10px;
+            margin: 5px;
+            font-size: 20px;
+            /* Einheitliche Schriftgröße */
+        }
+
+        .logo {
+            text-align: left;
+            color: #94EBEB;
+        }
+
+        .link {
+            text-align: right;
+            color: white;
+        }
+
+        .link a {
+            text-decoration: none;
+            color: white;
+        }
+
+        .link a:hover {
+            color: #a0a0a0;
+            transition: all 0.3s;
+        }
+
+        /* Enhanced content styles */
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 1.5em;
+            color: #94EBEB;
+            text-align: center;
+        }
+
+        .file-type {
+            margin: 25px 0;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            border-left: 4px solid #94EBEB;
+            transition: transform 0.2s ease, background 0.2s ease;
+        }
+
+        .file-type:hover {
+            transform: translateX(10px);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .file-type h3 {
+            color: #94EBEB;
+            margin-bottom: 10px;
+            font-size: 1.3em;
+        }
+
+        .file-type p {
+            color: #e0e0e0;
+            font-size: 1em;
+            line-height: 1.6;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            body {
+                width: 95%;
+              
+            }
+
+            .file-type {
+                padding: 15px;
+            }
+
+            h1 {
+                font-size: 2em;
+            }
+        }
+    </style>
 </head>
 
 <body>
@@ -17,174 +115,124 @@
             <a href="/">Convert</a>
         </div>
     </div>
-    <br>
-    <table>
-        <h5>Which file can you convert?</h5>
-        <tr>
-            <td>
-                <p>.docs/.doc</p>
-                <p>.txt</p>
-                <p>.odt</p>
-                <p>.html/.htm</p>
-            </td>
-            <td>
-                <p>to</p>
-            </td>
-            <td>
-                <p>.docs/.doc</p>
-                <p>.txt</p>
-                <p>.odt</p>
-                <p>.html/.htm</p>
-                <p>.epub</p>
-                <p>.pdf</p>
-            </td>
-        </tr>
 
-        <tr>
-            <td>
-                <p>.xlsx/.xls</p>
-                <p>.ods</p>
-            </td>
-            <td>
-                <p>to</p>
-            </td>
-            <td>
-                <p>.xlsx/.xls</p>
-                <p>.ods</p>
-                <p>.pdf</p>
-            </td>
-        </tr>
+    <h1>File Type List</h1>
 
-        <tr>
-            <td>
-                <p>.pptx/.ppt</p>
-                <p>.odp</p>
-            </td>
-            <td>
-                <p>to</p>
-            </td>
-            <td>
-                <p>.pptx/.ppt</p>
-                <p>.odp</p>
-                <p>.pdf</p>
-            </td>
-        </tr>
+    <div class="file-type">
+        <h3>Markdown (.md)</h3>
+        <p>A lightweight markup format often used for documentation and simple text files.</p>
+    </div>
 
-    </table>
-    <div class="exp">
-        <h5>What are the files?</h5>
-        <p><b>.docs:</b> This is not a standard file extension, likely a typo for .docx, which is a Microsoft Word document format.</p>
-        <p><b>.doc:</b> A Microsoft Word document format, commonly used for word processing.</p>
-        <p><b>.txt:</b> A plain text file that contains unformatted text.</p>
-        <p><b>.odt:</b> An OpenDocument Text file, typically used by OpenOffice and LibreOffice for word processing.</p>
-        <p><b>.html:</b> A HyperText Markup Language file, used to structure content on the web.</p>
-        <p><b>.htm:</b> A variant of the .html extension, also used for web pages.</p>
-        <p><b>.epub:</b> An electronic publication (ePub) file, commonly used for eBooks and supported by many eReader devices and applications.</p>        
-        <p><b>.xlsx:</b> A Microsoft Excel file format, used for spreadsheets.</p>
-        <p><b>.xls:</b> An older Microsoft Excel file format, also used for spreadsheets.</p>
-        <p><b>.pdf:</b> A Portable Document Format, widely used for sharing formatted documents.</p>
-        <p><b>.ods:</b> An OpenDocument Spreadsheet file, used by OpenOffice and LibreOffice for spreadsheets.</p>
-        <p><b>.odp:</b> An OpenDocument Presentation file, used by OpenOffice and LibreOffice for presentations.</p>
-        <p><b>.pptx:</b> A Microsoft PowerPoint presentation format, used for creating slideshows.</p>
-        <p><b>.ppt:</b> An older Microsoft PowerPoint format, also used for presentations.</p>
+    <div class="file-type">
+        <h3>HTML (.html, .xhtml, .html5, .chunked-html)</h3>
+        <p>Hypertext Markup Language, the foundational format for web documents.</p>
+    </div>
 
+    <div class="file-type">
+        <h3>PDF (.pdf)</h3>
+        <p>Portable Document Format, a platform-independent document format.</p>
+    </div>
 
+    <div class="file-type">
+        <h3>DOCX (.docx)</h3>
+        <p>Microsoft Word document format.</p>
+    </div>
 
+    <div class="file-type">
+        <h3>EPUB (.epub)</h3>
+        <p>A popular format for e-books.</p>
+    </div>
 
+    <div class="file-type">
+        <h3>MP4 (.mp4)</h3>
+        <p>A common video format used for storing and sharing video files.</p>
+    </div>
+
+    <div class="file-type">
+        <h3>JPEG (.jpg, .jpeg)</h3>
+        <p>A popular format for images with lossy compression.</p>
+    </div>
+
+    <div class="file-type">
+        <h3>CSV (.csv, .tsv)</h3>
+        <p>Comma-Separated Values, a format for storing tabular data.</p>
+    </div>
+
+    <div class="file-type">
+        <h3>XLS (.xls, .xlsx, .ods)</h3>
+        <p>Spreadsheet files used in programs like Microsoft Excel.</p>
+    </div>
+
+    <div class="file-type">
+        <h3>Audio Formats (.mp3, .wav, .aac, .flac, .ogg, .m4a, .wma, .ac3, .amr)</h3>
+        <p>Various audio formats for music and other sound outputs.</p>
+    </div>
+
+    <div class="file-type">
+        <h3>Video Files (.avi, .mov, .mkv, .webm, .flv, .wmv, .mpeg, .mpg, .ts, .3gp)</h3>
+        <p>Formats for storing and playing video content.</p>
+    </div>
+
+    <div class="file-type">
+        <h3>Images (.png, .gif, .bmp, .tiff, .webp)</h3>
+        <p>Various image formats used for photos, graphics, and illustrations.</p>
+    </div>
+
+    <div class="file-type">
+        <h3>LaTeX (.tex, .context)</h3>
+        <p>A typesetting system commonly used for academic and technical documents.</p>
+    </div>
+
+    <div class="file-type">
+        <h3>BibTeX (.bibtex, .biblatex)</h3>
+        <p>A bibliographic tool used with LaTeX for managing references.</p>
+    </div>
+
+    <div class="file-type">
+        <h3>MediaWiki Formats (.mediawiki, .dokuwiki, .tikimediawiki, .twiki, .vimwiki, .xwiki, .zimwiki, .jira-wiki,
+            .creole)</h3>
+        <p>Wiki-based formats for collaborative documentation.</p>
+    </div>
+
+    <div class="file-type">
+        <h3>Slideshow Formats (.beamer, .pptx, .slidy, .revealjs, .slideous, .s5, .dzslides)</h3>
+        <p>Various formats for creating and presenting slideshows.</p>
+    </div>
+
+    <div class="file-type">
+        <h3>Plain Text (.txt, .ansi-text)</h3>
+        <p>Simple text files without formatting.</p>
+    </div>
+
+    <div class="file-type">
+        <h3>Notebook (.ipynb)</h3>
+        <p>Jupyter Notebook file format for combining code, text, and output.</p>
+    </div>
+
+    <div class="file-type">
+        <h3>FictionBook (.fictionbook2)</h3>
+        <p>An XML-based e-book format.</p>
+    </div>
+
+    <div class="file-type">
+        <h3>TeXinfo (.texinfo)</h3>
+        <p>A documentation system that uses a single source file to produce multiple output formats.</p>
+    </div>
+
+    <div class="file-type">
+        <h3>ICML (.icml)</h3>
+        <p>Adobe InCopy document format for professional publishing.</p>
+    </div>
+
+    <div class="file-type">
+        <h3>Typst (.typst)</h3>
+        <p>A modern markup-based typesetting format.</p>
+    </div>
+
+    <div class="file-type">
+        <h3>ANSI Text (.ansi-text)</h3>
+        <p>A text format with ANSI escape codes for formatting.</p>
     </div>
 </body>
-<style>
-    body {
-        background-color: #1B1B1B;
-        color: white;
-        font-family: Arial, sans-serif;
-        width: 80%;
-        margin: 0 auto;
-        /* Zentriert den Inhalt */
-    }
-
-    .header {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-    }
-
-    .logo,
-    .link {
-        padding: 10px;
-        margin: 5px;
-        font-size: 20px;
-        /* Einheitliche Schriftgröße */
-    }
-
-    .logo {
-        text-align: left;
-        color: #94EBEB;
-    }
-
-    .link {
-        text-align: right;
-        color: white;
-    }
-
-    .link a {
-        text-decoration: none;
-        color: white;
-    }
-
-    .link a:hover {
-        color: #a0a0a0;
-        transition: all 0.3s;
-    }
-
-
-
-    table {
-        border-collapse: collapse;
-        /* Entfernt Lücken zwischen den Zellen */
-        text-align: center;
-        width: 100%;
-    }
-    h5{
-        font-size: 25px;
-        color: #94EBEB;
-        text-align: center;
-    }
-    table td,
-    table tr {
-        vertical-align: middle;
-        text-align: center;
-    }
-
-    tr {
-        border-bottom: 1px solid #94EBEB;
-        /* Fügt eine weiße Linie unter jeder Zelle hinzu */
-    }
-
-    tr p {
-        font-size: 25px;
-    }
-
-    .exp {
-        margin-top: 50px;
-        margin-left: 11%;
-        margin-right: 11%;
-    }
-
-    .exp p {
-        font-size: 20px;
-    }
-    @media (max-width: 600px) {
-        body{
-            width: 95%;
-            margin: 0 auto; 
-        }
-        .exp {
-            margin-left: 5%;
-            margin-left: 5%;
-        }
-
-    }
-</style>
 
 </html>

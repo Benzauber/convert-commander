@@ -1,19 +1,23 @@
 #!/bin/bash
 
-# Start-Skript ausführbar machen
+# Make the start script executable
 echo "Setting executable permission for start.sh..."
 chmod +x start.sh
 
-# Alias für Convert-Commander erstellen und laden
+# Make the update script executable
+echo "Setting executable permission for update.sh..."
+chmod +x update.sh
+
+# Create and load alias for Convert-Commander
 echo "Creating alias for Convert-Commander..."
 echo "alias ccommander='./start.sh'" >> ~/.bash_aliases
 source ~/.bash_aliases
 
-# Bash-Completion für ccommander erstellen
+# Set up bash completion for ccommander
 echo "Setting up bash completion for ccommander..."
 sudo mkdir -p /etc/bash_completion.d
 
-# Completion-Skript erstellen
+# Create completion script
 sudo tee /etc/bash_completion.d/ccommander-completion.bash > /dev/null << 'EOF'
 _ccommander_completion() {
     local cur prev opts sub_opts
@@ -21,10 +25,10 @@ _ccommander_completion() {
     cur="${COMP_WORDS[COMP_CWORD]}"
     prev="${COMP_WORDS[COMP_CWORD-1]}"
 
-    # Hauptoptionen
-    opts="web api"
+    # Main options
+    opts="web api update"
 
-    # Unteroptionen basierend auf dem ersten Argument
+    # Sub-options based on the first argument
     case "${prev}" in
         "web")
             sub_opts="start stop status"
@@ -46,7 +50,7 @@ _ccommander_completion() {
 complete -F _ccommander_completion ccommander
 EOF
 
-# Completion-Skript ausführbar machen und aktivieren
+# Make the completion script executable and activate it
 sudo chmod +x /etc/bash_completion.d/ccommander-completion.bash
 source /etc/bash_completion.d/ccommander-completion.bash
 

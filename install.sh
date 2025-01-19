@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Logo anzeigen
+# Display logo
 cat << "EOF"
   _____                                _             _____                                                _             
  / ____|                              | |           / ____|                                              | |            
@@ -12,15 +12,14 @@ EOF
 
 echo "Starting Convert-Commander installation..."
 
-# Funktion zur Fortschrittsanzeige
+# Function for progress bar display
 progress_bar() {
     local progress=$1
-    local total=12
+    local total=8
     local percent=$(( progress * 100 / total ))
     local completed=$(( percent / 5 ))
     local remaining=$(( 20 - completed ))
 
-    # Erzeuge den Fortschrittsbalken
     bar="["
     for ((i=0; i<$completed; i++)); do
         bar+="#"
@@ -30,7 +29,6 @@ progress_bar() {
     done
     bar+="] $percent%"
 
-    # Zeige den Fortschrittsbalken an
     echo -ne "$bar\r"
     sleep 1
     if [ "$progress" -lt "$total" ]; then
@@ -38,85 +36,59 @@ progress_bar() {
     fi
 }
 
-total_steps=11
+total_steps=8
 current_step=0
 
-# Python installieren
+# Installing Python
 echo "Installing Python..."
-sudo apt-get install -y python3.6
+sudo apt-get install -y python3 python3-pip
 ((current_step++))
 progress_bar $current_step
 
-# pip installieren
-echo "Installing pip..."
-sudo apt install -y python3-pip
-((current_step++))
-progress_bar $current_step
-
-# Virtuelle Umgebung einrichten
+# Setting up virtual environment
 echo "Setting up virtual environment..."
 python3 -m venv venv
 source venv/bin/activate
 ((current_step++))
 progress_bar $current_step
 
-# Flask installieren
-echo "Installing Flask..."
-pip install flask
+# Installing dependencies
+echo "Installing dependencies..."
+pip install -r requirements.txt
 ((current_step++))
 progress_bar $current_step
 
-# API-Flask installieren
-echo "Installing API-Flask..."
-pip install apiflask 
-pip install flask-cors
-((current_step++))
-progress_bar $current_step
-
-# Swagger UI installieren
-pip install flask-swagger-ui 
-((current_step++))
-progress_bar $current_step
-
-# LibreOffice installieren
+# Installing LibreOffice
 echo "Installing LibreOffice..."
-sudo apt-get install -y libreoffice
+sudo apt-get install libreoffice
 ((current_step++))
 progress_bar $current_step
 
-# PyOO installieren
-echo "Installing pyoo..."
-pip install pyoo 
+# Installing ffmpeg
+echo "Installing ffmpeg..."
+sudo apt-get install ffmpeg
 ((current_step++))
 progress_bar $current_step
 
-# gunicorn installieren
-echo "Installing gunicorn..."
-pip install gunicorn
+# Installing pandoc
+echo "Installing pandoc..."
+sudo apt-get install pandoc
 ((current_step++))
 progress_bar $current_step
 
-# jp installieren
-echo "Installing jp..."
-sudo apt-get install jq
-((current_step++))
-progress_bar $current_step
-
-
-# Ordner erstellen
+# Creating folders
 echo "Creating folders..."
 mkdir -p ./convert ./uploads
 ((current_step++))
 progress_bar $current_step
 
-chmod +x create-alias.sh
+# Making scripts executable
+chmod +x create-alias.sh tokenapi.sh
 bash create-alias.sh
 sleep 5
 source ~/.bashrc
 ((current_step++))
 progress_bar $current_step
 
-chmod +x tokenapi.sh
-
-# Fertigstellung anzeigen
+# Completion message
 echo -e "\nConvert-Commander installation completed successfully!"

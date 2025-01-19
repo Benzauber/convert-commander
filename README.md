@@ -6,11 +6,8 @@ You can see this on the [website](https://cc.bleibundgut.ch/).
 
 ## Which file can you convert?
 
-| Input Format                                     | To      | Output Format                                                    |
-|-------------------------------------------------|---------|------------------------------------------------------------------|
-| `.docs` / `.doc`, `.txt`, `.odt`, `.html` / `.htm` | **to**  | `.docs` / `.doc`, `.txt`, `.odt`, `.html` / `.htm`, `.epub`, `.pdf` |
-| `.xlsx` / `.xls`, `.ods`                           | **to**  | `.xlsx` / `.xls`, `.ods`, `.pdf`                                 |
-| `.pptx` / `.ppt`, `.odp`                        | **to**  | `.pptx` / `.ppt`, `.odp`, `.pdf`                                 |
+You can see this [here](filelist.md)
+
 
 
 ## I have tested with:
@@ -28,6 +25,7 @@ Ubuntu and Dabian
    git clone https://github.com/Benzauber/convert-commander.git
    ```
 
+### Installation Script
 2. **Run Installation Script**
    
    Navigate to the cloned directory and execute the `install.sh` script:
@@ -35,6 +33,17 @@ Ubuntu and Dabian
    ```bash
    cd convert-commander
    ./install.sh
+   ```
+
+### Docker
+2. **Docker (Web)**
+   
+   Navigate to the cloned directory.
+
+   ```bash
+   sudo docker build -t convert-commander .
+   sudo docker run -d -p 9595:5000 --name convert-commander convert-commander
+
    ```
 
 ## Usage
@@ -89,6 +98,15 @@ If it doesn't work, try the following:
    ```
 
 After doing this, the `ccommander` command should be available and you can use the start, stop, and status commands as mentioned above.
+
+### Make Update
+
+* You make an update with this command:
+
+  ```bash
+  ccommander update
+  ```
+  Only works from version `1.1.0`
 
 # API Documentation
 

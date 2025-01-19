@@ -17,38 +17,43 @@ h1 {
   margin-bottom: 30px;
 }
 
-.header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
+    /* Header styles - preserved as requested */
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
 
-.logo,
-.link {
-  padding: 10px;
-  margin: 5px;
-  font-size: 20px;
-}
+      border-bottom: 1px solid #333;
+      margin-bottom: 40px;
+  }
 
-.logo {
-  text-align: left;
-  color: #94EBEB;
-}
+  .logo,
+  .link {
+      padding: 10px;
+      margin: 5px;
+      font-size: 20px;
+      /* Einheitliche Schriftgröße */
+  }
 
-.link {
-  text-align: right;
-  color: white;
-}
+  .logo {
+      text-align: left;
+      color: #94EBEB;
+  }
 
-.link a {
-  text-decoration: none;
-  color: white;
-}
+  .link {
+      text-align: right;
+      color: white;
+  }
 
-.link a:hover {
-  color: #a0a0a0;
-  transition: all 0.3s;
-}
+  .link a {
+      text-decoration: none;
+      color: white;
+  }
+
+  .link a:hover {
+      color: #a0a0a0;
+      transition: all 0.3s;
+  }
 
 .button-container {
   display: flex;
@@ -186,6 +191,9 @@ h1 {
   color: #888888;
 }
 
+#error{
+  color: red;
+}
 @media (min-width: 600px){
   .buttons:hover {
     transform: translateY(-2px);
@@ -200,6 +208,7 @@ h1 {
   body{
     width: 95%;
     margin: 0 auto; 
+
 }
   .main {
     padding: 20px 10px;

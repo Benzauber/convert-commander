@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="de">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +8,7 @@
     <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
 </head>
+
 <body>
     <div class="header">
         <div class="logo">
@@ -18,45 +20,107 @@
     </div>
     <div class="main">
         <h1>Convert-Commander</h1>
+
         <div class="button-container">
             <div class="button-wrapper">
                 <form action="/" method="post" enctype="multipart/form-data">
-                <label class="buttons" for="fileInput" id="fileLabel">Select File</label>
-                <input type="file" name="file" id="fileInput" required onchange="updateFileName()">
+                    <label class="buttons" for="fileInput" id="fileLabel">Select File</label>
+                    <input type="file" name="file" id="fileInput" required onchange="updateFileName()">
             </div>
-            
+
             <div class="button-wrapper dropdown2" onmouseover="meineFunktion()">
-                <div class="buttons dropbtn2" onclick="event.preventDefault(); meineFunktion()" id="file">File Type</div>
+                <div class="buttons dropbtn2" onclick="event.preventDefault(); meineFunktion()" id="file">File Type
+                </div>
                 <div class="dropdown-content2">
-                    <input class="suche" type="text" onkeyup="filterFunction('dropdown-content2')" placeholder="Search...">
-                    <p class="text" onclick="setFileFunction('text', 'txt')">txt</p>
-                    <p class="text" onclick="setFileFunction('text', 'odt')">odt</p>
-                    <p class="text" onclick="setFileFunction('text', 'html')">html</p>
-                    <p class="text" onclick="setFileFunction('text', 'htm')">htm</p>
-                    <p class="text" onclick="setFileFunction('text', 'doc')">doc</p>
-                    <p class="text" onclick="setFileFunction('text', 'docx')">docx</p>
-                    <p class="text" onclick="setFileFunction('text', 'epub')">epub</p>
-                    <p class="none" onclick="setFileFunction('none', 'pdf')">pdf</p>
+                    <input class="suche" type="text" onkeyup="filterFunction('dropdown-content2')"
+                        placeholder="Search...">
                     <p class="ppt" onclick="setFileFunction('ppt', 'pptx')">pptx</p>
                     <p class="ppt" onclick="setFileFunction('ppt', 'ppt')">ppt</p>
                     <p class="ppt" onclick="setFileFunction('ppt', 'odp')">odp</p>
                     <p class="exel" onclick="setFileFunction('exel', 'xls')">xls</p>
                     <p class="exel" onclick="setFileFunction('exel', 'xlsx')">xlsx</p>
                     <p class="exel" onclick="setFileFunction('exel', 'ods')">ods</p>
+                    <p class="pandoc" onclick="setFileFunction('pandoc', 'docx')">docx</p>
+                    <p class="pandoc" onclick="setFileFunction('pandoc', 'html')">html</p>
+                    <p class="pandoc" onclick="setFileFunction('pandoc', 'md')">md</p>
+                    <p class="pandoc" onclick="setFileFunction('pandoc', 'odt')">odt</p>
+                    <p class="pandoc" onclick="setFileFunction('pandoc', 'txt')">txt</p>
+                    <p class="pandoc" onclick="setFileFunction('pandoc', 'rst')">rst</p>
+                    <p class="pandoc" onclick="setFileFunction('pandoc', 'asciidoc')">asciidoc</p>
+                    <p class="pandoc" onclick="setFileFunction('pandoc', 'org')">org</p>
+                    <p class="pandoc" onclick="setFileFunction('pandoc', 'muse')">muse</p>
+                    <p class="pandoc" onclick="setFileFunction('pandoc', 'textile')">textile</p>
+                    <p class="pandoc" onclick="setFileFunction('pandoc', 'markua')">markua</p>
+                    <p class="pandoc" onclick="setFileFunction('pandoc', 'html5')">html5</p>
+                    <p class="pandoc" onclick="setFileFunction('pandoc', 'epub')">epub</p>
+                    <p class="pandoc" onclick="setFileFunction('pandoc', 'texinfo')">texinfo</p>
+                    <p class="pandoc" onclick="setFileFunction('pandoc', 'haddock')">haddock</p>
+                    <p class="pandoc" onclick="setFileFunction('pandoc', 'latex')">latex</p>
+                    <p class="pandoc" onclick="setFileFunction('pandoc', 'context')">context</p>
+                    <p class="pandoc" onclick="setFileFunction('pandoc', 'docbook')">docbook</p>
+                    <p class="pandoc" onclick="setFileFunction('pandoc', 'jats')">jats</p>
+                    <p class="pandoc" onclick="setFileFunction('pandoc', 'tei')">tei</p>
+                    <p class="pandoc" onclick="setFileFunction('pandoc', 'opml')">opml</p>
+                    <p class="pandoc" onclick="setFileFunction('pandoc', 'bibtex')">bibtex</p>
+                    <p class="pandoc" onclick="setFileFunction('pandoc', 'biblatex')">biblatex</p>
+                    <p class="pandoc" onclick="setFileFunction('pandoc', 'rtf')">rtf</p>
+                    <p class="pandoc" onclick="setFileFunction('pandoc', 'ipynb')">ipynb</p>
+                    <p class="pandoc" onclick="setFileFunction('pandoc', 'icml')">icml</p>
+                    <p class="pandoc" onclick="setFileFunction('pandoc', 'typst')">typst</p>
+                    <p class="pandoc" onclick="setFileFunction('pandoc', 'mediawiki')">mediawiki</p>
+                    <p class="pandoc" onclick="setFileFunction('pandoc', 'dokuwiki')">dokuwiki</p>
+                    <p class="pandoc" onclick="setFileFunction('pandoc', 'xwiki')">xwiki</p>
+                    <p class="pandoc" onclick="setFileFunction('pandoc', 'zimwiki')">zimwiki</p>
+                    <p class="pandoc" onclick="setFileFunction('pandoc', 'beamer')">beamer</p>
+                    <p class="pandoc" onclick="setFileFunction('pandoc', 'slidy')">slidy</p>
+                    <p class="pandoc" onclick="setFileFunction('pandoc', 'revealjs')">revealjs</p>
+                    <p class="pandoc" onclick="setFileFunction('pandoc', 'slideous')">slideous</p>
+                    <p class="pandoc" onclick="setFileFunction('pandoc', 's5')">s5</p>
+                    <p class="pandoc" onclick="setFileFunction('pandoc', 'dzslides')">dzslides</p>
+                    <p class="video" onclick="setFileFunction('video', 'mp4')">mp4</p>
+                    <p class="video" onclick="setFileFunction('video', 'avi')">avi</p>
+                    <p class="video" onclick="setFileFunction('video', 'mov')">mov</p>
+                    <p class="video" onclick="setFileFunction('video', 'mkv')">mkv</p>
+                    <p class="video" onclick="setFileFunction('video', 'webm')">webm</p>
+                    <p class="video" onclick="setFileFunction('video', 'flv')">flv</p>
+                    <p class="video" onclick="setFileFunction('video', 'wmv')">wmv</p>
+                    <p class="video" onclick="setFileFunction('video', 'mpeg')">mpeg</p>
+                    <p class="video" onclick="setFileFunction('video', 'mpg')">mpg</p>
+                    <p class="video" onclick="setFileFunction('video', 'ts')">ts</p>
+                    <p class="video" onclick="setFileFunction('video', '3gp')">3gp</p>
+                    <p class="video" onclick="setFileFunction('video', 'gif')">gif</p>
+                    <p class="audio" onclick="setFileFunction('audio', 'mp3')">mp3</p>
+                    <p class="audio" onclick="setFileFunction('audio', 'wav')">wav</p>
+                    <p class="audio" onclick="setFileFunction('audio', 'aac')">aac</p>
+                    <p class="audio" onclick="setFileFunction('audio', 'flac')">flac</p>
+                    <p class="audio" onclick="setFileFunction('audio', 'ogg')">ogg</p>
+                    <p class="audio" onclick="setFileFunction('audio', 'm4a')">m4a</p>
+                    <p class="audio" onclick="setFileFunction('audio', 'wma')">wma</p>
+                    <p class="audio" onclick="setFileFunction('audio', 'ac3')">ac3</p>
+                    <p class="audio" onclick="setFileFunction('audio', 'amr')">amr</p>
+                    <p class="image" onclick="setFileFunction('image', 'jpg')">jpg</p>
+                    <p class="image" onclick="setFileFunction('image', 'jpeg')">jpeg</p>
+                    <p class="image" onclick="setFileFunction('image', 'png')">png</p>
+                    <p class="image" onclick="setFileFunction('image', 'bmp')">bmp</p>
+                    <p class="image" onclick="setFileFunction('image', 'tiff')">tiff</p>
+                    <p class="image" onclick="setFileFunction('image', 'webp')">webp</p>
+
                 </div>
             </div>
-            
+
             <div class="button-wrapper">
                 <input class="buttons" type="button" value="Upload" id="submitButton" onclick="sendData()">
             </div>
         </div>
+        <h1 id="error"></h1>
     </div>
     <p id="upload-status">
         {% if status %}
-            {{ status }}
+        {{ status }}
         {% endif %}
     </p>
 
     <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
+
 </html>

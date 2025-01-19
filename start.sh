@@ -25,7 +25,7 @@ check_status() {
         if ps -p "$PID" > /dev/null; then
             echo "$SERVICE_NAME is running (PID: $PID)"
         else
-            echo "$SERVICE_NAME is not running, PID file found but process not active"
+            echo "$SERVICE_NAME is not running, PID file found, but process is not active"
             rm "$PID_FILE"
         fi
     else
@@ -43,7 +43,7 @@ start_service() {
         echo "$SCRIPT_NAME is already running"
     else
         $GUNICORN_CMD "$SCRIPT_NAME" &
-        echo "$SCRIPT_NAME has been started"
+        echo "$SCRIPT_NAME has started"
     fi
 }
 
@@ -62,7 +62,7 @@ stop_service() {
     fi
 }
 
-# Function to run a Bash script
+# Function to execute a Bash script
 run_bash_script() {
     local SCRIPT_NAME=$1
     if [ -x "$SCRIPT_NAME" ]; then
@@ -72,7 +72,7 @@ run_bash_script() {
     fi
 }
 
-# Main logic to choose the service and action
+# Main logic to select the service and action
 case "$1" in
     web)
         case "$2" in
@@ -86,7 +86,7 @@ case "$1" in
                 check_status "$PID_FILE_WEB" "Web service"
                 ;;
             *)
-                echo "Usage: $0 {web|api} {start|stop|status}"
+                echo "Usage: $0 {web|api|update} {start|stop|status}"
                 exit 1
                 ;;
         esac
@@ -103,16 +103,19 @@ case "$1" in
                 check_status "$PID_FILE_API" "API service"
                 ;;
             token)
-                run_bash_script "tokenapi.sh"
+                run_bash_script "tokenapi.sh" 
                 ;;
             *)
-                echo "Usage: $0 {web|api} {start|stop|status|token}"
+                echo "Usage: $0 {web|api|update} {start|stop|status|token}"
                 exit 1
                 ;;
         esac
         ;;
+    update)
+        run_bash_script "update.sh"
+        ;;
     *)
-        echo "Usage: $0 {web|api} {start|stop|status|token}"
+        echo "Usage: $0 {web|api|update} {start|stop|status|token}"
         exit 1
         ;;
 esac

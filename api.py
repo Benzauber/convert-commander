@@ -1,7 +1,9 @@
 from flask import Flask, request, jsonify, send_file, make_response
 from flask_swagger_ui import get_swaggerui_blueprint
 import os
-import chnage  # Dein Konvertierungsskript
+import pandoc
+import libre
+import ffmpeg
 from flask_cors import CORS
 import shutil
 import logging
@@ -18,6 +20,33 @@ UPLOAD_FOLDER = 'uploads'
 CONVERT_FOLDER = 'convert'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['CONVERT_FOLDER'] = CONVERT_FOLDER
+
+pandoc_formats = [
+    "markdown", "rst", "asciidoc", "org", "muse", "textile", "markua", "txt2tags", "djot",
+    "html", "xhtml", "html5", "chunked-html",
+    "epub", "fictionbook2",
+    "texinfo", "haddock",
+    "roff-man", "roff-ms", "mdoc-man",
+    "latex", "context",
+    "docbook", "jats", "bits", "tei", "opendocument", "opml",
+    "bibtex", "biblatex", "csl-json", "csl-yaml", "ris", "endnote",
+    "docx", "rtf", "odt",
+    "ipynb",
+    "icml", "typst",
+    "mediawiki", "dokuwiki", "tikimediawiki", "twiki", "vimwiki", "xwiki", "zimwiki", "jira-wiki", "creole",
+    "beamer", "pptx", "slidy", "revealjs", "slideous", "s5", "dzslides",
+    "csv", "tsv",
+    "ansi-text",
+    "pdf", "txt"
+]
+
+libreoffice_formats = ["xls", "xlsx", "ods", "ppt", "pptx", "odp"]
+
+ffmpeg_formats = [
+    'mp4', 'avi', 'mov', 'mkv', 'webm', 'flv', 'wmv', 'mpeg', 'mpg', 'ts', '3gp', 'mp3', 'wav', 'aac', 'flac',
+    'ogg', 'm4a', 'wma', 'ac3', 'amr', 'jpg', 'jpeg', 'png', 'gif', 'bmp', 'tiff', 'webp', 'mxf', 'vob',
+    'asf', 'dv', 'm3u8', 'mpd'
+    ]
 
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 os.makedirs(CONVERT_FOLDER, exist_ok=True)
@@ -43,7 +72,7 @@ def generate_token():
     return secrets.token_urlsafe(32)
 
 def hash_token(token):
-    """Generiere einen SHA-256 Hash des Tokens."""
+    """ Generate a SHA-256 hash of the token."""
     return hashlib.sha256(token.encode()).hexdigest()
 
 def token_required(f):
@@ -61,7 +90,7 @@ def token_required(f):
 @app.route('/generate_token', methods=['POST'])
 def create_token():
     """
-    Generiere ein neues API-Token
+    Generate a new API token
     ---
     tags:
       - Authentication
@@ -71,8 +100,8 @@ def create_token():
     """
     token = generate_token()
     hashed_token = hash_token(token)
-    hashed_tokens.add(hashed_token)  # Speichere das gehashte Token
-    return jsonify({'token': token}), 200  # Gebe das einfache Token zurück
+    hashed_tokens.add(hashed_token)  
+    return jsonify({'token': token}), 200  
 
 def delete_files_in_folder(folder_path):
     if os.path.exists(folder_path):
@@ -92,7 +121,7 @@ def delete_files_in_folder(folder_path):
 @token_required
 def upload_file():
     """
-    Lade eine Datei hoch und konvertiere sie in das angegebene Format
+    Upload a file and convert it to the specified format
     ---
     tags:
       - File Conversion
@@ -141,7 +170,17 @@ def upload_file():
 
     try:
         logging.debug(f"Starting conversion from {filepath} to {target_format}")
-        chnage.start(filepath, target_format)
+
+        if target_format in libreoffice_formats:
+          print("Libreoffice")
+          libre.start(filepath, target_format)
+        elif target_format in pandoc_formats:
+          print("Pandoc")
+          pandoc.start(filepath, target_format)
+        elif target_format in ffmpeg_formats:
+          print("Ffmpeg")
+          ffmpeg.start(filepath, target_format)
+ 
         
         converted_filename = os.path.splitext(filename)[0] + f'.{target_format}'
         converted_filepath = os.path.join(app.config['CONVERT_FOLDER'], converted_filename)
@@ -175,7 +214,7 @@ def upload_file():
 @token_required
 def clear_folders():
     """
-    Leere alle Dateien in den Upload- und Konvertierungsordnern
+    Clear all files in the upload and conversion folders
     ---
     tags:
       - Maintenance
