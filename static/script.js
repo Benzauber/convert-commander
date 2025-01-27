@@ -30,7 +30,7 @@ var pandocGruppe = [".md", ".rst", ".asciidoc", ".org", ".muse", ".textile", ".m
   ".mediawiki", ".dokuwiki", ".tikimediawiki", ".twiki", ".vimwiki", ".xwiki", ".zimwiki", ".jira-wiki", ".creole",
   ".beamer", ".slidy", ".revealjs", ".slideous", ".s5", ".dzslides",
   ".csv", ".tsv",
-  ".ansi-text"]
+  ".ansi-text", ".txt"]
 var convertFile = [
   ".md", ".rst", ".asciidoc", ".org", ".muse", ".textile", ".markua", ".txt2tags", ".djot",
   ".html", ".xhtml", ".html5", ".chunked-html",
@@ -47,7 +47,7 @@ var convertFile = [
   ".csv", ".tsv",
   ".ansi-text", ".xls", ".xlsx", ".ods", ".ppt", ".pptx", ".odp", '.mp4', '.avi', '.mov', '.mkv', '.webm', '.flv', '.wmv',
   '.mpeg', '.mpg', '.ts', '.3gp', '.mp3', '.wav', '.aac', '.flac', '.ogg', '.m4a', '.wma', '.ac3', '.amr', '.jpg', '.jpeg',
-  '.png', '.gif', '.bmp', '.tiff', '.webp', '.mxf', '.vob', '.asf', '.dv', '.m3u8', '.mpd'
+  '.png', '.gif', '.bmp', '.tiff', '.webp', '.mxf', '.vob', '.asf', '.dv', '.m3u8', '.mpd', ".txt"
 ];
 
 
