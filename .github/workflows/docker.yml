@@ -1,58 +1,29 @@
 name: Build & Publish Docker image
+
 on:
-  release:
-    types: [created]
-  workflow_dispatch:
-    inputs:
-      version:
-        type: string
-        description: Version number
-        required: true
+  push:
+    branches:
+      - main
 
 jobs:
-  publish:
-    name: Build & Publish to DockerHub
-    runs-on: ubuntu-20.04
+  build-and-push:
+    runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
+    - name: Checkout repository
+      uses: actions/checkout@v2
 
-      - name: Establish variables
-        id: vars
-        run: |
-          echo "app_name=convert-commander" >> "$GITHUB_OUTPUT"
-          echo "version=${{ github.event.inputs.version || github.event.release.tag_name }}" >> "$GITHUB_OUTPUT"
-          echo "major_version=$(echo ${{ github.event.inputs.version || github.event.release.tag_name }} | cut -d '.' -f 1)" >> "$GITHUB_OUTPUT"
-          echo "today=$(date +'%Y-%m-%d')" >> "$GITHUB_OUTPUT"
+    - name: Login to DockerHub
+      uses: docker/login-action@v3
+      with:
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_TOKEN }}
 
-      - name: Login to DockerHub
-        uses: docker/login-action@v3
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_TOKEN }}
+    - name: Build the Docker image
+      run: docker build -t my-image:latest .
 
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v2
+    - name: Push the Docker image
+      run: docker push my-image:latest
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
-        id: docker-buildx
-
-      - name: Build and push Docker image
-        uses: docker/build-push-action@v3
-        with:
-          builder: ${{ steps.docker-buildx.outputs.name }}
-          context: .
-          file: ./Dockerfile
-          push: true
-          platforms: linux/amd64,linux/arm64
-          tags: |
-            benzauber/convert-commander:latest
-            benzauber/convert-commander:${{ steps.vars.outputs.version }}
-            benzauber/convert-commander:${{ steps.vars.outputs.major_version }}
-          labels: |
-            org.opencontainers.image.title=Convert-Commander
-            org.opencontainers.image.version=${{ steps.vars.outputs.version }}
-            org.opencontainers.image.created=${{ steps.vars.outputs.today }}
+    - name: Log out from DockerHub
+      run: docker logout

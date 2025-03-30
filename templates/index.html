@@ -27,6 +27,14 @@
                     <label class="buttons" for="fileInput" id="fileLabel">Select File</label>
                     <input type="file" name="file" id="fileInput" required onchange="updateFileName()">
             </div>
+            <div id="dropOverlay" class="drop-overlay">
+                <form action="/" method="post" enctype="multipart/form-data">
+                  <label for="fileInput" id="fileLabel">
+                    New File
+                  </label>
+                  <input type="file" name="file" id="fileInput" required onchange="updateFileName()">
+                </form>
+              </div>
 
             <div class="button-wrapper dropdown2" onmouseover="meineFunktion()">
                 <div class="buttons dropbtn2" onclick="event.preventDefault(); meineFunktion()" id="file">File Type
