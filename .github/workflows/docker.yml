@@ -2,18 +2,19 @@ name: Build & Publish Docker image
 
 on:
   release:
-    types: [created]
+    types: [created]   # Trigger on release creation
   workflow_dispatch:
     inputs:
       version:
         type: string
         description: Version number
-        required: true
+        required: true   # This allows you to specify a version when manually triggering
 
 jobs:
   publish:
     name: Build & Publish to DockerHub
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
@@ -22,7 +23,7 @@ jobs:
         run: echo ${{ secrets.DOCKER_TOKEN }} | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
 
       - name: Build the Docker image
-        run: docker build -t my-image:latest .
+        run: docker build -t my-image:${{ github.event.inputs.version }} .
 
       - name: Push the Docker image
-        run: docker push my-image:latest
+        run: docker push my-image:${{ github.event.inputs.version }}
