@@ -1,29 +1,46 @@
-name: Build & Publish Docker image
+name: Build & Publish Docker Image to Docker Hub
 
 on:
   release:
-    types: [created]   # Trigger on release creation
-  workflow_dispatch:
-    inputs:
-      version:
-        type: string
-        description: Version number
-        required: true   # This allows you to specify a version when manually triggering
+    types: [created]  # Trigger when a new release is created
+  workflow_dispatch:  # Allow manual triggering
 
 jobs:
   publish:
     name: Build & Publish to DockerHub
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04  # Using Ubuntu 20.04
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Fetch full history for versioning purposes
 
-      - name: Login to DockerHub
-        run: echo ${{ secrets.DOCKER_TOKEN }} | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
+      - name: Establish version and app name variables
+        id: vars
+        run: |
+          echo "app_name=convert-commander" >> "$GITHUB_OUTPUT"
+          echo "version=${{ github.event.inputs.version || github.event.release.tag_name }}" >> "$GITHUB_OUTPUT"
+          echo "major_version=$(echo ${{ github.event.inputs.version || github.event.release.tag_name }} | cut -d '.' -f 1)" >> "$GITHUB_OUTPUT"
 
-      - name: Build the Docker image
-        run: docker build -t my-image:${{ github.event.inputs.version }} .
+      - name: Display version info
+        run: |
+          echo "App Name: ${{ steps.vars.outputs.app_name }}"
+          echo "Version: ${{ steps.vars.outputs.version }}"
 
-      - name: Push the Docker image
-        run: docker push my-image:${{ github.event.inputs.version }}
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_TOKEN }}
+
+      - name: Build and push Docker image to Docker Hub
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: |
+            ${{ secrets.DOCKER_USERNAME }}/convert-commander:latest
+            ${{ secrets.DOCKER_USERNAME }}/convert-commander:${{ steps.vars.outputs.version }}
+            ${{ secrets.DOCKER_USERNAME }}/convert-commander:${{ steps.vars.outputs.major_version }}
