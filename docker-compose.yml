@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+  convert-commander:
+    build: .
+    container_name: convert-commander
+    ports:
+      - "9595:5000"  # Adjust this port if needed
+    volumes:
+      - .:/app  # Mount the current directory to the container
+      - ./uploads:/app/uploads  # Persist uploads folder
+      - ./convert:/app/convert  # Persist conversions folder
+    environment:
+      - PYTHONUNBUFFERED=1  # Keep logs in real-time
+    restart: always  # Restart container if it crashes

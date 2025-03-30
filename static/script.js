@@ -30,7 +30,7 @@ var pandocGruppe = [".md", ".rst", ".asciidoc", ".org", ".muse", ".textile", ".m
   ".mediawiki", ".dokuwiki", ".tikimediawiki", ".twiki", ".vimwiki", ".xwiki", ".zimwiki", ".jira-wiki", ".creole",
   ".beamer", ".slidy", ".revealjs", ".slideous", ".s5", ".dzslides",
   ".csv", ".tsv",
-  ".ansi-text"]
+  ".ansi-text", ".txt"]
 var convertFile = [
   ".md", ".rst", ".asciidoc", ".org", ".muse", ".textile", ".markua", ".txt2tags", ".djot",
   ".html", ".xhtml", ".html5", ".chunked-html",
@@ -47,8 +47,71 @@ var convertFile = [
   ".csv", ".tsv",
   ".ansi-text", ".xls", ".xlsx", ".ods", ".ppt", ".pptx", ".odp", '.mp4', '.avi', '.mov', '.mkv', '.webm', '.flv', '.wmv',
   '.mpeg', '.mpg', '.ts', '.3gp', '.mp3', '.wav', '.aac', '.flac', '.ogg', '.m4a', '.wma', '.ac3', '.amr', '.jpg', '.jpeg',
-  '.png', '.gif', '.bmp', '.tiff', '.webp', '.mxf', '.vob', '.asf', '.dv', '.m3u8', '.mpd'
+  '.png', '.gif', '.bmp', '.tiff', '.webp', '.mxf', '.vob', '.asf', '.dv', '.m3u8', '.mpd', ".txt"
 ];
+
+const dropOverlay = document.getElementById('dropOverlay');
+const fileInput = document.getElementById('fileInput');
+let dragCounter = 0;
+
+// Drag and Drop
+function showOverlay() {
+  dropOverlay.style.display = 'flex';
+}
+function hideOverlay() {
+  dropOverlay.style.display = 'none';
+}
+
+document.body.addEventListener('dragenter', (e) => {
+  if (e.dataTransfer && e.dataTransfer.items && e.dataTransfer.items.length > 0) {
+    dragCounter++;
+    showOverlay();
+    dropOverlay.classList.add('highlight');
+  }
+});
+
+document.body.addEventListener('dragleave', (e) => {
+  dragCounter--;
+  if (dragCounter <= 0) {
+    dropOverlay.classList.remove('highlight');
+    hideOverlay();
+    dragCounter = 0;
+  }
+});
+
+document.body.addEventListener('dragover', (e) => {
+  e.preventDefault();
+});
+
+dropOverlay.addEventListener('drop', (e) => {
+  e.preventDefault();
+  hideOverlay();
+  dropOverlay.classList.remove('highlight');
+  dragCounter = 0;
+  
+  const files = e.dataTransfer.files;
+  if (files && files.length > 0) {
+    const dt = new DataTransfer();
+    for (let i = 0; i < files.length; i++) {
+      dt.items.add(files[i]);
+    }
+    fileInput.files = dt.files;
+
+    if (fileInput.files.length > 0) {
+      const file = fileInput.files[0];
+      const fileName = file.name;
+      const fileExtension = '.' + fileName.split('.').pop().toLowerCase();
+      globalfileExtension = fileExtension;
+
+      updateFileName();
+      overfeed();
+      flexElemente();
+      meineFunktion(fileExtension);
+    }
+    
+    e.dataTransfer.clearData();
+  }
+});
 
 
 
