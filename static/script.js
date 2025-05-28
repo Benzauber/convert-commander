@@ -14,7 +14,7 @@ var elementsImage = document.getElementsByClassName("image");
 // var textGuppe = [".docx", ".txt", ".odt", ".html", ".htm", ".doc", ".epub"];
 var videoGruppe = ['.mp4', '.avi', '.mov', '.mkv', '.webm', '.flv', '.wmv', '.mpeg', '.mpg', '.ts', '.3gp', '.gif'];
 var audioGruppe = ['.mp3', '.wav', '.aac', '.flac', '.ogg', '.m4a', '.wma', '.ac3', '.amr', '.mp4', '.avi', '.mov', '.mkv', '.webm', '.flv', '.wmv', '.mpeg', '.mpg', '.ts', '.3gp'];
-var imageGruppe = ['.jpg', '.jpeg', '.png', '.gif', '.bmp', '.tiff', '.webp'];
+var imageGruppe = ['.jpg', '.jpeg', '.png', '.gif', '.bmp', '.tiff', '.webp', ',ico'];
 var tabelleGruppe = [".xls", ".xlsx", ".ods"];
 var persentGruppe = [".ppt", ".pptx", ".odp"];
 var pandocGruppe = [".md", ".rst", ".asciidoc", ".org", ".muse", ".textile", ".markua", ".txt2tags", ".djot",
@@ -47,7 +47,7 @@ var convertFile = [
   ".csv", ".tsv",
   ".ansi-text", ".xls", ".xlsx", ".ods", ".ppt", ".pptx", ".odp", '.mp4', '.avi', '.mov', '.mkv', '.webm', '.flv', '.wmv',
   '.mpeg', '.mpg', '.ts', '.3gp', '.mp3', '.wav', '.aac', '.flac', '.ogg', '.m4a', '.wma', '.ac3', '.amr', '.jpg', '.jpeg',
-  '.png', '.gif', '.bmp', '.tiff', '.webp', '.mxf', '.vob', '.asf', '.dv', '.m3u8', '.mpd', ".txt"
+  '.png', '.gif', '.bmp', '.tiff', '.webp', '.mxf', '.vob', '.asf', '.dv', '.m3u8', '.mpd', ".txt", '.ico'
 ];
 
 const dropOverlay = document.getElementById('dropOverlay');

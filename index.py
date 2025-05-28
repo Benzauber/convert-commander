@@ -45,7 +45,7 @@ libreoffice_formats = ["xls", "xlsx", "ods", "ppt", "pptx", "odp"]
 ffmpeg_formats = [
     'mp4', 'avi', 'mov', 'mkv', 'webm', 'flv', 'wmv', 'mpeg', 'mpg', 'ts', '3gp', 'mp3', 'wav', 'aac', 'flac',
     'ogg', 'm4a', 'wma', 'ac3', 'amr', 'jpg', 'jpeg', 'png', 'gif', 'bmp', 'tiff', 'webp', 'mxf', 'vob',
-    'asf', 'dv', 'm3u8', 'mpd'
+    'asf', 'dv', 'm3u8', 'mpd', 'ico'
     ]
 
 def delete_files_in_folder(folder_path):
