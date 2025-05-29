@@ -47,6 +47,12 @@ Ubuntu and Dabian
    sudo docker run -d -p 9595:5000 --name convert-commander convert-commander
 
    ```
+   ## Docker Hub
+
+   ```bash
+   docker run -d --name convert-commander -p 9595:5000 benzauber/convert-commander:latest
+   ```
+   The Web will then be running on http://YOUR_IP-ADDRES:9595
 
 ## Usage
 
