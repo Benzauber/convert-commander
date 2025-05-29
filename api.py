@@ -12,6 +12,7 @@ import mimetypes
 import secrets
 import hashlib
 from functools import wraps
+import json
 
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})
@@ -21,32 +22,13 @@ CONVERT_FOLDER = 'convert'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['CONVERT_FOLDER'] = CONVERT_FOLDER
 
-pandoc_formats = [
-    "markdown", "rst", "asciidoc", "org", "muse", "textile", "markua", "txt2tags", "djot",
-    "html", "xhtml", "html5", "chunked-html",
-    "epub", "fictionbook2",
-    "texinfo", "haddock",
-    "roff-man", "roff-ms", "mdoc-man",
-    "latex", "context",
-    "docbook", "jats", "bits", "tei", "opendocument", "opml",
-    "bibtex", "biblatex", "csl-json", "csl-yaml", "ris", "endnote",
-    "docx", "rtf", "odt",
-    "ipynb",
-    "icml", "typst",
-    "mediawiki", "dokuwiki", "tikimediawiki", "twiki", "vimwiki", "xwiki", "zimwiki", "jira-wiki", "creole",
-    "beamer", "pptx", "slidy", "revealjs", "slideous", "s5", "dzslides",
-    "csv", "tsv",
-    "ansi-text",
-    "pdf", "txt"
-]
+with open('static/data/formats.json', 'r') as f:
+    data = json.load(f)
 
-libreoffice_formats = ["xls", "xlsx", "ods", "ppt", "pptx", "odp"]
 
-ffmpeg_formats = [
-    'mp4', 'avi', 'mov', 'mkv', 'webm', 'flv', 'wmv', 'mpeg', 'mpg', 'ts', '3gp', 'mp3', 'wav', 'aac', 'flac',
-    'ogg', 'm4a', 'wma', 'ac3', 'amr', 'jpg', 'jpeg', 'png', 'gif', 'bmp', 'tiff', 'webp', 'mxf', 'vob',
-    'asf', 'dv', 'm3u8', 'mpd', 'ico'
-    ]
+pandoc_formats = data['pandocGruppe']
+libreoffice_formats = data['tabelleGruppe'] + data['persentGroup']
+ffmpeg_formats = data['videoGruppe'] + data['audioGruppe'] + data['imageGruppe']
 
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 os.makedirs(CONVERT_FOLDER, exist_ok=True)

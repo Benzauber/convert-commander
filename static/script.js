@@ -12,43 +12,35 @@ var elementsAudio = document.getElementsByClassName("audio");
 var elementsImage = document.getElementsByClassName("image");
 
 // var textGuppe = [".docx", ".txt", ".odt", ".html", ".htm", ".doc", ".epub"];
-var videoGruppe = ['.mp4', '.avi', '.mov', '.mkv', '.webm', '.flv', '.wmv', '.mpeg', '.mpg', '.ts', '.3gp', '.gif'];
-var audioGruppe = ['.mp3', '.wav', '.aac', '.flac', '.ogg', '.m4a', '.wma', '.ac3', '.amr', '.mp4', '.avi', '.mov', '.mkv', '.webm', '.flv', '.wmv', '.mpeg', '.mpg', '.ts', '.3gp'];
-var imageGruppe = ['.jpg', '.jpeg', '.png', '.gif', '.bmp', '.tiff', '.webp', ',ico'];
-var tabelleGruppe = [".xls", ".xlsx", ".ods"];
-var persentGruppe = [".ppt", ".pptx", ".odp"];
-var pandocGruppe = [".md", ".rst", ".asciidoc", ".org", ".muse", ".textile", ".markua", ".txt2tags", ".djot",
-  ".html", ".xhtml", ".html5", ".chunked-html",
-  ".epub", ".fictionbook2",
-  ".texinfo", ".haddock", ".roff-man", ".roff-ms", ".mdoc-man",
-  ".latex", ".context",
-  ".docbook", ".jats", ".bits", ".tei", ".opendocument", ".opml",
-  ".bibtex", ".biblatex", ".csl-json", ".csl-yaml", ".ris", ".endnote",
-  ".docx", ".rtf", ".odt",
-  ".ipynb",
-  ".icml", ".typst",
-  ".mediawiki", ".dokuwiki", ".tikimediawiki", ".twiki", ".vimwiki", ".xwiki", ".zimwiki", ".jira-wiki", ".creole",
-  ".beamer", ".slidy", ".revealjs", ".slideous", ".s5", ".dzslides",
-  ".csv", ".tsv",
-  ".ansi-text", ".txt"]
-var convertFile = [
-  ".md", ".rst", ".asciidoc", ".org", ".muse", ".textile", ".markua", ".txt2tags", ".djot",
-  ".html", ".xhtml", ".html5", ".chunked-html",
-  ".epub", ".fictionbook2",
-  ".texinfo", ".haddock", ".roff-man", ".roff-ms", ".mdoc-man",
-  ".latex", ".context",
-  ".docbook", ".jats", ".bits", ".tei", ".opendocument", ".opml",
-  ".bibtex", ".biblatex", ".csl-json", ".csl-yaml", ".ris", ".endnote",
-  ".docx", ".rtf", ".odt",
-  ".ipynb",
-  ".icml", ".typst",
-  ".mediawiki", ".dokuwiki", ".tikimediawiki", ".twiki", ".vimwiki", ".xwiki", ".zimwiki", ".jira-wiki", ".creole",
-  ".beamer", ".slidy", ".revealjs", ".slideous", ".s5", ".dzslides",
-  ".csv", ".tsv",
-  ".ansi-text", ".xls", ".xlsx", ".ods", ".ppt", ".pptx", ".odp", '.mp4', '.avi', '.mov', '.mkv', '.webm', '.flv', '.wmv',
-  '.mpeg', '.mpg', '.ts', '.3gp', '.mp3', '.wav', '.aac', '.flac', '.ogg', '.m4a', '.wma', '.ac3', '.amr', '.jpg', '.jpeg',
-  '.png', '.gif', '.bmp', '.tiff', '.webp', '.mxf', '.vob', '.asf', '.dv', '.m3u8', '.mpd', ".txt", '.ico'
-];
+// Oben: global definieren
+var videoGruppe = [];
+var audioGruppe = [];
+var imageGruppe = [];
+var tabelleGruppe = [];
+var persentGruppe = [];
+var pandocGruppe = [];
+var convertFile = [];
+
+fetch("/static/data/formats.json")
+  .then(res => {
+    if (!res.ok) throw new Error("Fehler beim Laden der JSON-Datei");
+    return res.json();
+  })
+  .then(data => {
+    const addDot = arr => arr.map(ext => '.' + ext);
+
+    videoGruppe = addDot(data.videoGruppe);
+    audioGruppe = addDot(data.audioGruppe);
+    imageGruppe = addDot(data.imageGruppe);
+    tabelleGruppe = addDot(data.tabelleGruppe);
+    persentGruppe = addDot(data.persentGruppe);
+    pandocGruppe = addDot(data.pandocGruppe);
+    convertFile = addDot(data.convertFile);
+
+    console.log("Video-Formate:", videoGruppe);
+  })
+  .catch(err => console.error(err));
+
 
 const dropOverlay = document.getElementById('dropOverlay');
 const fileInput = document.getElementById('fileInput');

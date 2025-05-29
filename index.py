@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, redirect, url_for, jsonify, send_file
+from flask import Flask, request, render_template, redirect, url_for, jsonify, send_file, send_from_directory
 import os
 import pandoc
 import libre
@@ -6,6 +6,7 @@ import ffmpeg
 from flask_cors import CORS
 import shutil
 from threading import Timer
+import json
 
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})
@@ -21,32 +22,14 @@ global_filetest = None
 folder_path_1 = 'uploads'
 folder_path_2 = 'convert'
 
-pandoc_formats = [
-    "markdown", "rst", "asciidoc", "org", "muse", "textile", "markua", "txt2tags", "djot",
-    "html", "xhtml", "html5", "chunked-html",
-    "epub", "fictionbook2",
-    "texinfo", "haddock",
-    "roff-man", "roff-ms", "mdoc-man",
-    "latex", "context",
-    "docbook", "jats", "bits", "tei", "opendocument", "opml",
-    "bibtex", "biblatex", "csl-json", "csl-yaml", "ris", "endnote",
-    "docx", "rtf", "odt",
-    "ipynb",
-    "icml", "typst",
-    "mediawiki", "dokuwiki", "tikimediawiki", "twiki", "vimwiki", "xwiki", "zimwiki", "jira-wiki", "creole",
-    "beamer", "pptx", "slidy", "revealjs", "slideous", "s5", "dzslides",
-    "csv", "tsv",
-    "ansi-text",
-    "pdf", "txt"
-]
+with open('static/data/formats.json', 'r') as f:
+    data = json.load(f)
 
-libreoffice_formats = ["xls", "xlsx", "ods", "ppt", "pptx", "odp"]
 
-ffmpeg_formats = [
-    'mp4', 'avi', 'mov', 'mkv', 'webm', 'flv', 'wmv', 'mpeg', 'mpg', 'ts', '3gp', 'mp3', 'wav', 'aac', 'flac',
-    'ogg', 'm4a', 'wma', 'ac3', 'amr', 'jpg', 'jpeg', 'png', 'gif', 'bmp', 'tiff', 'webp', 'mxf', 'vob',
-    'asf', 'dv', 'm3u8', 'mpd', 'ico'
-    ]
+pandoc_formats = data['pandocGruppe']
+libreoffice_formats = data['tabelleGruppe'] + data['persentGruppe']
+ffmpeg_formats = data['videoGruppe'] + data['audioGruppe'] + data['imageGruppe']
+
 
 def delete_files_in_folder(folder_path):
     # Check if the folder exists
@@ -134,6 +117,10 @@ def empfange_daten():
 @app.route('/docs')
 def doc():
     return render_template("docs.html")
+
+@app.route("/static/data/formats.json")
+def get_gruppen():
+    return send_from_directory("static/data", "formats.json")
 
 if __name__ == '__main__':
     app.run(debug=True, host="0.0.0.0")
