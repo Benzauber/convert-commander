@@ -14,10 +14,9 @@ CORS(app, resources={r"/*": {"origins": "*"}})
 UPLOAD_FOLDER = 'uploads'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
-# Make sure the upload folder exists
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
-# Global variable to store filetest
+
 global_filetest = None
 folder_path_1 = 'uploads'
 folder_path_2 = 'convert'
