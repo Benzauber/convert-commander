@@ -10,7 +10,8 @@ Web: [cc.bleibundgut.ch](https://cc.bleibundgut.ch)
 
 You can see this [here](filelist.md)
 
-
+## Buy me a Coffee
+[!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/benzauber)
 
 ## I have tested with:
 Ubuntu and Dabian
