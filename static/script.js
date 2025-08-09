@@ -3,6 +3,8 @@ var value = "";
 var valuename = "";
 var globalfileExtension = "";
 var same = false;
+var selectedFiles = [];
+var sessionId = generateSessionId();
 
 var elementsPandoc = document.getElementsByClassName("pandoc");
 var elementsExel = document.getElementsByClassName("exel");
@@ -11,8 +13,6 @@ var elementsVideo = document.getElementsByClassName("video");
 var elementsAudio = document.getElementsByClassName("audio");
 var elementsImage = document.getElementsByClassName("image");
 
-// var textGuppe = [".docx", ".txt", ".odt", ".html", ".htm", ".doc", ".epub"];
-// Oben: global definieren
 var videoGruppe = [];
 var audioGruppe = [];
 var imageGruppe = [];
@@ -20,6 +20,12 @@ var tabelleGruppe = [];
 var persentGruppe = [];
 var pandocGruppe = [];
 var convertFile = [];
+
+function generateSessionId() {
+  return 'session_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+}
+
+document.getElementById('sessionId').value = sessionId;
 
 fetch("/static/data/formats.json")
   .then(res => {
@@ -37,19 +43,19 @@ fetch("/static/data/formats.json")
     pandocGruppe = addDot(data.pandocGruppe);
     convertFile = addDot(data.convertFile);
 
-    console.log("Video-Formate:", videoGruppe);
+    console.log("Formats loaded successfully");
   })
   .catch(err => console.error(err));
-
 
 const dropOverlay = document.getElementById('dropOverlay');
 const fileInput = document.getElementById('fileInput');
 let dragCounter = 0;
 
-// Drag and Drop
+// Drag and Drop functions
 function showOverlay() {
   dropOverlay.style.display = 'flex';
 }
+
 function hideOverlay() {
   dropOverlay.style.display = 'none';
 }
@@ -88,37 +94,20 @@ dropOverlay.addEventListener('drop', (e) => {
       dt.items.add(files[i]);
     }
     fileInput.files = dt.files;
-
-    if (fileInput.files.length > 0) {
-      const file = fileInput.files[0];
-      const fileName = file.name;
-      const fileExtension = '.' + fileName.split('.').pop().toLowerCase();
-      globalfileExtension = fileExtension;
-
-      updateFileName();
-      overfeed();
-      flexElemente();
-      meineFunktion(fileExtension);
-    }
-    
+    handleFileSelection();
     e.dataTransfer.clearData();
   }
 });
-
-
-
 
 function filterFunction(dropdownClass) {
   const input = document.querySelector(`.${dropdownClass} .suche`);
   const filter = input.value.toLowerCase();
   const pElements = document.querySelectorAll(`.${dropdownClass} p`);
 
-  // Make all p-elements visible again first
   pElements.forEach(function (item) {
     item.style.display = "flex";
   });
 
-  // Then filter only the elements that match the search query
   pElements.forEach(function (item) {
     const textValue = item.textContent.toLowerCase(); 
     if (textValue.indexOf(filter) == -1) {
@@ -128,7 +117,6 @@ function filterFunction(dropdownClass) {
     }
   });
 
-  // Execute 'meineFunktion' only if the search field is empty
   if (elementsDown2.length > 0 && window.getComputedStyle(elementsDown2[0]).display === "flex" && input.value.trim() === "") {
     console.log(globalfileExtension)
     meineFunktion(globalfileExtension);
@@ -140,10 +128,7 @@ function setFileFunction(name, filename) {
   valuename = filename;
   console.log(value, valuename);
 
-  if (
-    elementsDown2.length > 0 &&
-    window.getComputedStyle(elementsDown2[0]).display === "flex"
-  ) {
+  if (elementsDown2.length > 0 && window.getComputedStyle(elementsDown2[0]).display === "flex") {
     var dropbtn2 = document.getElementsByClassName("dropbtn2");
     if (dropbtn2.length > 0) {
       dropbtn2[0].innerHTML = valuename;
@@ -153,31 +138,144 @@ function setFileFunction(name, filename) {
   return [value, valuename];
 }
 
-document.getElementById('fileInput').addEventListener('change', function (event) {
-  const file = event.target.files[0];
-
-  if (file) {
-    const fileName = file.name; 
-    const fileExtension = '.' + fileName.split('.').pop();
-
-    console.log(`Dateiendung: ${fileExtension}`);
-    globalfileExtension = fileExtension
+function handleFileSelection() {
+  const fileInput = document.getElementById('fileInput');
+  const fileLabel = document.getElementById('fileLabel');
+  
+  if (fileInput.files.length > 0) {
+    selectedFiles = Array.from(fileInput.files);
+    
+    // Update label text
+    if (selectedFiles.length === 1) {
+      fileLabel.textContent = selectedFiles[0].name;
+    } else {
+      fileLabel.textContent = `${selectedFiles.length} files selected`;
+    }
+    
+    // Validate all files and get extensions
+    let allValid = true;
+    let extensions = new Set();
+    let firstValidExtension = "";
+    
+    selectedFiles.forEach(file => {
+      const fileName = file.name;
+      const fileExtension = '.' + fileName.split('.').pop().toLowerCase();
+      extensions.add(fileExtension);
+      
+      if (!convertFile.includes(fileExtension)) {
+        allValid = false;
+      } else if (firstValidExtension === "") {
+        firstValidExtension = fileExtension;
+      }
+    });
+    
+    if (!allValid) {
+      errorMessage("Invalidfile");
+      return;
+    }
+    
+    // Check if all files have the same extension (same group compatibility)
+    if (extensions.size > 1) {
+      // Multiple different extensions - check if they're all in the same conversion group
+      let groups = [videoGruppe, audioGruppe, imageGruppe, tabelleGruppe, persentGruppe, pandocGruppe];
+      let fileGroups = new Set();
+      
+      extensions.forEach(ext => {
+        let group = groups.findIndex(g => g.includes(ext));
+        if (group !== -1) {
+          fileGroups.add(group);
+        }
+      });
+      
+      if (fileGroups.size > 1) {
+        errorMessage("mixedtypes");
+        return;
+      }
+    }
+    
+    // Use first extension for group detection
+    globalfileExtension = firstValidExtension;
+    
+    // Show file list
+    updateFileList();
     overfeed();
     flexElemente();
-    meineFunktion(fileExtension); 
-    console.log('Keine Datei ausgewählt.');
+    meineFunktion(globalfileExtension);
+    errorMessage("none");
+  } else {
+    fileLabel.textContent = 'Select Files';
+    document.getElementById('fileListContainer').style.display = 'none';
+    errorMessage("none");
   }
-});
+}
+
+function updateFileList() {
+  const fileListContainer = document.getElementById('fileListContainer');
+  const fileList = document.getElementById('fileList');
+  
+  if (selectedFiles.length === 0) {
+    fileListContainer.style.display = 'none';
+    return;
+  }
+  
+  fileListContainer.style.display = 'block';
+  fileList.innerHTML = '';
+  
+  selectedFiles.forEach((file, index) => {
+    const fileItem = document.createElement('div');
+    fileItem.className = 'file-item';
+    
+    fileItem.innerHTML = `
+      <span class="file-name">${file.name}</span>
+      <button class="delete-btn" onclick="removeFile(${index})" title="Remove file">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M3 6h18"></path>
+          <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path>
+          <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path>
+          <line x1="10" y1="11" x2="10" y2="17"></line>
+          <line x1="14" y1="11" x2="14" y2="17"></line>
+        </svg>
+      </button>
+    `;
+    
+    fileList.appendChild(fileItem);
+  });
+}
+
+function removeFile(index) {
+  selectedFiles.splice(index, 1);
+  
+  // Update file input
+  const dt = new DataTransfer();
+  selectedFiles.forEach(file => {
+    dt.items.add(file);
+  });
+  fileInput.files = dt.files;
+  
+  // Update display
+  const fileLabel = document.getElementById('fileLabel');
+  if (selectedFiles.length === 0) {
+    fileLabel.textContent = 'Select Files';
+    document.getElementById('fileListContainer').style.display = 'none';
+  } else if (selectedFiles.length === 1) {
+    fileLabel.textContent = selectedFiles[0].name;
+  } else {
+    fileLabel.textContent = `${selectedFiles.length} files selected`;
+  }
+  
+  updateFileList();
+  overfeed();
+}
+
+document.getElementById('fileInput').addEventListener('change', handleFileSelection);
 
 function flexElemente() {
-  // Function to apply the style to all elements of a collection
   function setDisplayFlex(elements) {
     for (var i = 0; i < elements.length; i++) {
       elements[i].style.display = "flex";
     }
   }
 
-  // Stil anwenden
   setDisplayFlex(elementsExel);
   setDisplayFlex(elementsPPT);
   setDisplayFlex(elementsVideo);
@@ -186,9 +284,7 @@ function flexElemente() {
   setDisplayFlex(elementsPandoc);
 }
 
-
 function meineFunktion(name) {
-
   if (pandocGruppe.includes(name)) {
     for (var i = 0; i < elementsExel.length; i++) {
       elementsExel[i].style.display = "none";
@@ -247,9 +343,6 @@ function meineFunktion(name) {
     for (var i = 0; i < elementsPPT.length; i++) {
       elementsPPT[i].style.display = "none";
     }
-    //    for (var i = 0; i < elementsAudio.length; i++) {
-    //      elementsAudio[i].style.display = "none";
-    //   }
     for (var i = 0; i < elementsImage.length; i++) {
       elementsImage[i].style.display = "none";
     }
@@ -288,10 +381,8 @@ function meineFunktion(name) {
   }
 }
 
-
 function sendData() {
-  if (same == true) {
-
+  if (same == true && selectedFiles.length > 0) {
     fetch('/empfange_daten', {
       method: 'POST',
       headers: {
@@ -307,16 +398,18 @@ function sendData() {
       })
       .then(data => {
         console.log('Success:', data);
-        document.querySelector('form').submit();
+        document.getElementById('uploadForm').submit();
       })
       .catch((error) => {
         console.error('Error:', error);
       });
-
-  } else{
+  } else if (selectedFiles.length === 0) {
+    errorMessage("nofiles");
+  } else {
     errorMessage("nottype");
   }
 }
+
 document.querySelectorAll('.dropdown2').forEach(dropdown => {
   dropdown.addEventListener('mouseenter', () => {
     const dropdownContent = dropdown.querySelector('.dropdown-content2');
@@ -331,78 +424,93 @@ document.querySelectorAll('.dropdown2').forEach(dropdown => {
   });
 });
 
-
 function updateFileName() {
-  const fileInput = document.getElementById('fileInput');
-  const fileLabel = document.getElementById('fileLabel');
+  // This function is now replaced by handleFileSelection
+  // Kept for compatibility
+  handleFileSelection();
+}
+
+function errorMessage(element) {
   const errorElement = document.getElementById('error');
 
-  if (fileInput.files.length > 0) {
-    const fileName = fileInput.files[0].name;
-    const fileExtension = '.' + fileName.split('.').pop().toLowerCase();
-    if (convertFile.includes(fileExtension)) {
-      errorMessage("none");
-      fileLabel.textContent = fileName;
-    } else {
-      // Error: Invalid file format
-      fileLabel.textContent = 'Datei auswählen';
-      errorMessage("Invalidfile");
-    }
-  } else {
-    // No file selected
-    fileLabel.textContent = 'Datei auswählen';
-    errorMessage("none");
+  if (element == "Invalidfile") {
+    errorElement.innerHTML = 'Invalid file format. More details: <a href="/docs" target="_blank">Docs</a>';
+  } else if (element == "notsame") {
+    errorElement.innerHTML = 'Cannot be converted to the selected format.';
+  } else if (element == "nottype") {
+    errorElement.innerHTML = 'No target format selected';
+  } else if (element == "nofiles") {
+    errorElement.innerHTML = 'No files selected';
+  } else if (element == "mixedtypes") {
+    errorElement.innerHTML = 'All files must be of the same type (e.g., all images, all documents, etc.)';
+  } else if (element == "none") {
+    errorElement.innerHTML = '';
   }
 }
 
-function errorMessage(elemt) {
-  const errorElement = document.getElementById('error');
-
-  if (elemt == "Invalidfile") {
-    errorElement.innerHTML = 'Invalid file format. More details: <a href="/docs" target="_blank">Docs</a>';
-  } else {
-    if (elemt == "notsame") {
-      errorElement.innerHTML = 'Cannot be converted to the selected format.';
-    } else {
-      if (elemt == "nottype") {
-        errorElement.innerHTML = 'No file or type selected';
-      } else {
-        if (elemt == "none") {
-          errorElement.innerHTML = '';
+function overfeed() {
+  if (valuename !== "" && selectedFiles.length > 0) {
+    let groups = [videoGruppe, audioGruppe, imageGruppe, tabelleGruppe, persentGruppe, pandocGruppe];
+    let targetFormat = "." + valuename;
+    let allCompatible = true;
+    
+    // Check if all selected files are compatible with the target format
+    selectedFiles.forEach(file => {
+      const fileExtension = '.' + file.name.split('.').pop().toLowerCase();
+      
+      let sourceGroup = groups.find(group => group.includes(fileExtension));
+      let targetGroup = groups.find(group => group.includes(targetFormat));
+      
+      if (!sourceGroup || !targetGroup || sourceGroup !== targetGroup) {
+        allCompatible = false;
+      }
+    });
+    
+    // Also check if all files are in the same group (no mixing different types)
+    if (allCompatible && selectedFiles.length > 1) {
+      let fileGroups = new Set();
+      selectedFiles.forEach(file => {
+        const fileExtension = '.' + file.name.split('.').pop().toLowerCase();
+        let groupIndex = groups.findIndex(group => group.includes(fileExtension));
+        if (groupIndex !== -1) {
+          fileGroups.add(groupIndex);
         }
+      });
+      
+      if (fileGroups.size > 1) {
+        allCompatible = false;
       }
     }
-  }
-};
-
-function overfeed() {
-  if (valuename !== "") {
-    let groups = [videoGruppe, audioGruppe, imageGruppe, tabelleGruppe, persentGruppe, pandocGruppe];
-
-    let var1 = "." + valuename;
-
-    let var1Group = groups.filter(group => group.includes(globalfileExtension));
-    let var2Group = groups.filter(group => group.includes(var1));
-
-    // Check if var1 or globalfileExtension are invalid
-    if (var1 === "" || globalfileExtension === "") {
-      console.log("Error: One of the variables is empty.");
-      errorMessage("notsame");
-      same = false;
-      return; // Exit the function early if there's an error
-    }
-
-    if (var1Group.length > 0 && var2Group.length > 0 && var1Group[0] === var2Group[0]) {
-      console.log("The variables are in the same group");
-      console.log(var1, globalfileExtension);
+    
+    if (allCompatible) {
+      console.log("All files are compatible with target format");
       errorMessage("none");
       same = true;
     } else {
-      console.log("The variables are in different groups.");
-      console.log(var1, globalfileExtension);
-      errorMessage("notsame");
+      console.log("Some files are not compatible with target format or files are of different types");
+      if (selectedFiles.length > 1) {
+        // Check if it's a mixed types issue
+        let groups = [videoGruppe, audioGruppe, imageGruppe, tabelleGruppe, persentGruppe, pandocGruppe];
+        let fileGroups = new Set();
+        selectedFiles.forEach(file => {
+          const fileExtension = '.' + file.name.split('.').pop().toLowerCase();
+          let groupIndex = groups.findIndex(group => group.includes(fileExtension));
+          if (groupIndex !== -1) {
+            fileGroups.add(groupIndex);
+          }
+        });
+        
+        if (fileGroups.size > 1) {
+          errorMessage("mixedtypes");
+        } else {
+          errorMessage("notsame");
+        }
+      } else {
+        errorMessage("notsame");
+      }
       same = false;
-
     }
+  } else {
+    same = false;
   }
-};
+}

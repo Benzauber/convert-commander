@@ -23,25 +23,23 @@
 
         <div class="button-container">
             <div class="button-wrapper">
-                <form action="/" method="post" enctype="multipart/form-data">
-                    <label class="buttons" for="fileInput" id="fileLabel">Select File</label>
-                    <input type="file" name="file" id="fileInput" required onchange="updateFileName()">
-            </div>
-            <div id="dropOverlay" class="drop-overlay">
-                <form action="/" method="post" enctype="multipart/form-data">
-                  <label for="fileInput" id="fileLabel">
-                    New File
-                  </label>
-                  <input type="file" name="file" id="fileInput" required onchange="updateFileName()">
+                <form action="/" method="post" enctype="multipart/form-data" id="uploadForm">
+                    <input type="hidden" name="session_id" id="sessionId" value="">
+                    <label class="buttons" for="fileInput" id="fileLabel">Select Files</label>
+                    <input type="file" name="files" id="fileInput" multiple required onchange="handleFileSelection()">
                 </form>
-              </div>
+            </div>
+            
+            <div id="dropOverlay" class="drop-overlay">
+                <label for="fileInput" id="fileLabel">
+                    Drop Files Here
+                </label>
+            </div>
 
             <div class="button-wrapper dropdown2" onmouseover="meineFunktion()">
-                <div class="buttons dropbtn2" onclick="event.preventDefault(); meineFunktion()" id="file">File Type
-                </div>
+                <div class="buttons dropbtn2" onclick="event.preventDefault(); meineFunktion()" id="file">File Type</div>
                 <div class="dropdown-content2">
-                    <input class="suche" type="text" onkeyup="filterFunction('dropdown-content2')"
-                        placeholder="Search...">
+                    <input class="suche" type="text" onkeyup="filterFunction('dropdown-content2')" placeholder="Search...">
                     <p class="ppt" onclick="setFileFunction('ppt', 'pptx')">pptx</p>
                     <p class="ppt" onclick="setFileFunction('ppt', 'ppt')">ppt</p>
                     <p class="ppt" onclick="setFileFunction('ppt', 'odp')">odp</p>
@@ -112,16 +110,23 @@
                     <p class="image" onclick="setFileFunction('image', 'bmp')">bmp</p>
                     <p class="image" onclick="setFileFunction('image', 'tiff')">tiff</p>
                     <p class="image" onclick="setFileFunction('image', 'webp')">webp</p>
-
                 </div>
             </div>
 
             <div class="button-wrapper">
-                <input class="buttons" type="button" value="Upload" id="submitButton" onclick="sendData()">
+                <input class="buttons" type="button" value="Upload & Convert" id="submitButton" onclick="sendData()">
             </div>
         </div>
+
+        <!-- File List Container -->
+        <div id="fileListContainer" class="file-list-container" style="display: none;">
+            <h3>Selected Files:</h3>
+            <div id="fileList" class="file-list"></div>
+        </div>
+
         <h1 id="error"></h1>
     </div>
+    
     <p id="upload-status">
         {% if status %}
         {{ status }}

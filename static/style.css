@@ -22,7 +22,6 @@ h1 {
   display: flex;
   align-items: center;
   justify-content: space-between;
-
   border-bottom: 1px solid #333;
   margin-bottom: 40px;
 }
@@ -32,7 +31,6 @@ h1 {
   padding: 10px;
   margin: 5px;
   font-size: 20px;
-  /* Einheitliche Schriftgröße */
 }
 
 .logo {
@@ -61,7 +59,7 @@ h1 {
   left: 0;
   width: 100%;
   height: 100%;
-  display: none; /* Standardmäßig versteckt */
+  display: none;
   justify-content: center;
   align-items: center;
   background-color: rgba(255, 255, 255, 0.9);
@@ -69,6 +67,7 @@ h1 {
   z-index: 1000;
   transition: background-color 0.3s, border-color 0.3s;
 }
+
 .drop-overlay label {
   font-size: 24px;
   color: #333;
@@ -78,14 +77,17 @@ h1 {
   cursor: pointer;
   transition: transform 0.3s ease;
 }
+
 .drop-overlay label:hover {
   transform: scale(1.05);
 }
+
 .drop-overlay.highlight {
   border-color: #333;
   background-color: rgba(240, 240, 240, 0.95);
   animation: pulse 1.5s infinite;
 }
+
 @keyframes pulse {
   0% {
     box-shadow: 0 0 0 0 rgba(51, 51, 51, 0.7);
@@ -97,7 +99,8 @@ h1 {
     box-shadow: 0 0 0 0 rgba(51, 51, 51, 0);
   }
 }
-/* Datei-Input ausblenden */
+
+/* File input hidden */
 #fileInput {
   display: none;
 }
@@ -220,10 +223,6 @@ h1 {
   transition: all 0.3s;
 }
 
-#fileInput {
-  display: none;
-}
-
 .suche {
   width: 100%;
   padding: 10px;
@@ -243,6 +242,75 @@ h1 {
   color: red;
 }
 
+/* File List Styles */
+.file-list-container {
+  margin-top: 30px;
+  width: 100%;
+  max-width: 600px;
+}
+
+.file-list-container h3 {
+  color: #94EBEB;
+  margin-bottom: 15px;
+  font-size: 18px;
+}
+
+.file-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.file-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  background-color: #2A2A2A;
+  border-radius: 8px;
+  border: 1px solid #3A3A3A;
+  transition: all 0.3s ease;
+}
+
+.file-item:hover {
+  background-color: #333333;
+  border-color: #94EBEB;
+}
+
+.file-name {
+  color: #FFFFFF;
+  font-size: 14px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex: 1;
+  margin-right: 10px;
+}
+
+.delete-btn {
+  background: none;
+  border: none;
+  color: #ff4444;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.delete-btn:hover {
+  background-color: rgba(255, 68, 68, 0.1);
+  color: #ff6666;
+  transform: scale(1.1);
+}
+
+.delete-btn svg {
+  width: 16px;
+  height: 16px;
+}
+
 @media (min-width: 600px) {
   .buttons:hover {
     transform: translateY(-2px);
@@ -251,14 +319,12 @@ h1 {
   .dropdown2:hover .dropbtn2 {
     transform: translateY(-2px);
   }
-
 }
 
 @media (max-width: 600px) {
   body {
     width: 95%;
     margin: 0 auto;
-
   }
 
   .main {
@@ -304,9 +370,19 @@ h1 {
 
   .dropdown2:hover .dropdown-content2 {
     overflow-y: auto;
-
   }
 
+  .file-list-container {
+    width: 95%;
+  }
+
+  .file-item {
+    padding: 10px 12px;
+  }
+
+  .file-name {
+    font-size: 13px;
+  }
 }
 
 @media (max-width: 415px) {
