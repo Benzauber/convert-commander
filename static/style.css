@@ -242,6 +242,37 @@ h1 {
   color: red;
 }
 
+/* Clipboard Notification Styles */
+.clipboard-notification {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 20px;
+  border-radius: 8px;
+  color: white;
+  font-weight: 500;
+  z-index: 9999;
+  transform: translateX(100%);
+  transition: transform 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.clipboard-notification.success {
+  background: linear-gradient(135deg, #4CAF50, #45a049);
+  border: 1px solid #4CAF50;
+}
+
+.clipboard-notification.show {
+  transform: translateX(0);
+}
+
+.notification-icon {
+  font-size: 16px;
+}
+
 /* File List Styles */
 .file-list-container {
   margin-top: 30px;
@@ -382,6 +413,14 @@ h1 {
 
   .file-name {
     font-size: 13px;
+  }
+  
+  .clipboard-notification {
+    top: 10px;
+    right: 10px;
+    left: 10px;
+    right: 10px;
+    max-width: none;
   }
 }
 

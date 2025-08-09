@@ -6,6 +6,9 @@ var same = false;
 var selectedFiles = [];
 var sessionId = generateSessionId();
 
+// Clipboard functionality
+var clipboardEnabled = false;
+
 var elementsPandoc = document.getElementsByClassName("pandoc");
 var elementsExel = document.getElementsByClassName("exel");
 var elementsPPT = document.getElementsByClassName("ppt");
@@ -46,6 +49,112 @@ fetch("/static/data/formats.json")
     console.log("Formats loaded successfully");
   })
   .catch(err => console.error(err));
+
+// Clipboard Event Listeners
+document.addEventListener('DOMContentLoaded', function() {
+  // Enable clipboard when page loads
+  clipboardEnabled = true;
+  
+  // Show clipboard info
+  showClipboardInfo();
+});
+
+// Clipboard paste event
+document.addEventListener('paste', function(e) {
+  if (!clipboardEnabled) return;
+  
+  const items = e.clipboardData.items;
+  let newFiles = [];
+  
+  for (let i = 0; i < items.length; i++) {
+    const item = items[i];
+    
+    if (item.type.indexOf('image/') === 0) {
+      // Handle pasted images
+      const file = item.getAsFile();
+      if (file) {
+        // Generate a filename for pasted images
+        const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+        const extension = file.type.split('/')[1] || '';
+        const filename = `pasted-image-${timestamp}.${extension}`;
+        
+        // Create new file with proper name
+        const renamedFile = new File([file], filename, { type: file.type });
+        newFiles.push(renamedFile);
+      }
+    } else if (item.kind === 'file') {
+      // Handle other file types
+      const file = item.getAsFile();
+      if (file) {
+        newFiles.push(file);
+      }
+    }
+  }
+  
+  if (newFiles.length > 0) {
+    addFilesToSelection(newFiles);
+    e.preventDefault();
+    showClipboardSuccess(newFiles.length);
+  }
+});
+
+// Keyboard shortcut (Ctrl+V)
+document.addEventListener('keydown', function(e) {
+  if ((e.ctrlKey || e.metaKey) && e.key === 'v' && clipboardEnabled) {
+    // Paste event will be triggered automatically
+    console.log('Paste shortcut detected');
+  }
+});
+
+function addFilesToSelection(newFiles) {
+  // Add new files to existing selection
+  newFiles.forEach(file => {
+    selectedFiles.push(file);
+  });
+  
+  // Update file input with combined files
+  const dt = new DataTransfer();
+  selectedFiles.forEach(file => {
+    dt.items.add(file);
+  });
+  fileInput.files = dt.files;
+  
+  // Update display
+  handleFileSelection();
+}
+
+
+function showClipboardSuccess(fileCount) {
+  const existingNotification = document.getElementById('clipboardNotification');
+  if (existingNotification) {
+    existingNotification.remove();
+  }
+  
+  const notification = document.createElement('div');
+  notification.id = 'clipboardNotification';
+  notification.className = 'clipboard-notification success';
+  notification.innerHTML = `
+    <div class="notification-icon">✅</div>
+    <span>${fileCount} file${fileCount > 1 ? 's' : ''} pasted from clipboard!</span>
+  `;
+  
+  document.body.appendChild(notification);
+  
+  // Show notification
+  setTimeout(() => {
+    notification.classList.add('show');
+  }, 100);
+  
+  // Hide notification after 3 seconds
+  setTimeout(() => {
+    notification.classList.remove('show');
+    setTimeout(() => {
+      if (notification.parentNode) {
+        notification.remove();
+      }
+    }, 300);
+  }, 3000);
+}
 
 const dropOverlay = document.getElementById('dropOverlay');
 const fileInput = document.getElementById('fileInput');
